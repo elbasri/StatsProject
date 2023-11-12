@@ -7,9 +7,6 @@
 
 ### Django projet + app:
 - pip install django
-- django-admin startproject stats_projet
-- cd stats_projet
-- python3 manage.py startapp stats_app
 
 ### Install libraries
 - pip install django pandas matplotlib
