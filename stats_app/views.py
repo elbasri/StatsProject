@@ -9,6 +9,8 @@ from .forms import UploadFileForm
 from django.core.files.storage import default_storage
 from io import StringIO
 from django.http import Http404
+from django.shortcuts import get_object_or_404
+from django.utils.safestring import mark_safe
 
 def process_data(file_path):
     df = pd.read_csv(file_path)
@@ -62,10 +64,16 @@ def upload_file(request):
 def result_view(request, result_id):
     try:
         result = Result.objects.get(id=result_id)
+        df_info = result.result_text
+        df_info_html = pd.DataFrame()._info_repr_html()
+
+        uploaded_file = get_object_or_404(UploadedFile, id=result.uploaded_file_id)
     except Result.DoesNotExist:
         raise Http404("Result does not exist")
-    
-    return render(request, 'result.html', {'result': result})
+    except UploadedFile.DoesNotExist:
+        raise Http404("Uploaded file does not exist")
+
+    return render(request, 'result.html', {'result': result, 'uploaded_file': uploaded_file, 'df_info': df_info})
 
 
 def home(request):
