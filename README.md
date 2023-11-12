@@ -37,7 +37,8 @@
 
 ### Create admin user:
 - python3 manage.py createsuperuser
-(stats, stats@mail.com, ncr)
+- admin /admin
+- default login info (user: stats, pwd: ncr)
 
 ### Test:
 python manage.py runserver
