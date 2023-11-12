@@ -13,7 +13,7 @@
 - pip install lxml
 
 #### Windows: 
-- Installer mysql
+- Installer mysql: https://dev.mysql.com/downloads/installer/
 #### Linux/ubuntu: 
 - sudo apt-get install libmysqlclient-dev
 - export MYSQLCLIENT_CFLAGS="-I/usr/include/mysql"
