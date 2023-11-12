@@ -24,10 +24,10 @@ def process_data(file_path):
 
     # Capturez la sortie de df.info() sous forme de chaîne de caractères.
     info_buffer = StringIO()
-    df.info(buf=info_buffer)
-    info_string = info_buffer.getvalue()
+    df.info(buf=info_buffer, verbose=True, show_counts=True)
+    info_html = info_buffer.getvalue()
 
-    return info_string
+    return info_html
 
 def upload_file(request):
     if request.method == 'POST':
@@ -56,7 +56,7 @@ def upload_file(request):
             )
             instance.save()
 
-            return redirect('result', pk=instance.pk)
+            return redirect('result_view', result_id=instance.id)
     else:
         form = UploadFileForm()
     return render(request, 'upload.html', {'form': form})
