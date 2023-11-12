@@ -65,7 +65,7 @@ def result_view(request, result_id):
     try:
         result = Result.objects.get(id=result_id)
         df_info = result.result_text
-        df_info_html = pd.DataFrame()._info_repr_html()
+        df_info_html = pd.DataFrame().to_html()
 
         uploaded_file = get_object_or_404(UploadedFile, id=result.uploaded_file_id)
     except Result.DoesNotExist:
@@ -73,7 +73,7 @@ def result_view(request, result_id):
     except UploadedFile.DoesNotExist:
         raise Http404("Uploaded file does not exist")
 
-    return render(request, 'result.html', {'result': result, 'uploaded_file': uploaded_file, 'df_info': df_info})
+    return render(request, 'result.html', {'result': result, 'uploaded_file': uploaded_file, 'df_info': df_info_html})
 
 
 def home(request):
