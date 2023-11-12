@@ -121,6 +121,7 @@ CREATE TABLE `auth_user` (
 
 --
 -- Dumping data for table `auth_user`
+--thi is your users:
 --
 
 LOCK TABLES `auth_user` WRITE;
