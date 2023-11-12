@@ -1,0 +1,121 @@
+<!-- stats_app/templates/home.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>StatsProject</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>StatsProject</h1>
+        <p>Cet projet est une application web basée sur Django conçue pour l'analyse statistique</p>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Statistics</h5>
+                        <p>Nombre de fichiers: {{ total_files }}</p>
+                        <p>Resultats: {{ total_results }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-3">
+            <a class="btn btn-primary" href="{% url 'upload' %}">Telecharger des fichiers</a>
+            <a class="btn btn-secondary" href="{% url 'result' pk=1 %}">Exemple de Resultat</a>
+        </div>
+    </div>
+
+    <div class="markdown prose w-full break-words dark:prose-invert light">
+        <p><strong>Description du Projet:</strong></p>
+        <p>
+          Voici un aperçu de ses principaux composants :
+        </p>
+        <ol>
+          <li>
+            <p><strong>Framework Django :</strong></p>
+            <ul>
+              <li>Le projet est développé en utilisant le framework web Django, qui suit le modèle architectural Modèle-Vue-Contrôleur (MVC).</li>
+              <li>Django offre une structure robuste et évolutive pour la création d'applications web avec Python.</li>
+            </ul>
+          </li>
+          <li>
+            <p><strong>Modèle de Base de Données :</strong></p>
+            <ul>
+              <li>L'application inclut un modèle de base de données appelé <code>Result</code> avec des champs tels que <code>id</code>, <code>result_text</code>, et <code>uploaded_file_id</code>.</li>
+              <li>Le modèle <code>Result</code> semble stocker des résultats statistiques générés à partir de données contenues dans des fichiers téléchargés.</li>
+            </ul>
+          </li>
+          <li>
+            <p><strong>Téléchargement de Fichiers :</strong></p>
+            <ul>
+              <li>Les utilisateurs peuvent télécharger des fichiers contenant des données pour une analyse statistique.</li>
+              <li>Les fichiers téléchargés sont associés à des instances de <code>Result</code> via le champ <code>uploaded_file_id</code>.</li>
+            </ul>
+          </li>
+          <li>
+            <p><strong>Vues :</strong></p>
+            <ul>
+              <li>L'application comprend une fonction de vue appelée <code>result_view</code> chargée de traiter les requêtes liées à l'affichage des résultats statistiques.</li>
+              <li>La vue récupère une instance de <code>Result</code> en fonction de l'<code>result_id</code> fourni et affiche les données dans un modèle HTML (<code>result.html</code>).</li>
+            </ul>
+          </li>
+          <li>
+            <p><strong>Modèles HTML :</strong></p>
+            <ul>
+              <li>Le projet inclut probablement des modèles HTML pour le rendu des pages web. Le modèle <code>result.html</code> est mentionné, indiquant qu'il est utilisé pour afficher les résultats statistiques.</li>
+            </ul>
+          </li>
+          <li>
+            <p><strong>Schémas d'URL :</strong></p>
+            <ul>
+              <li>Les schémas d'URL sont configurés dans <code>urls.py</code> pour rediriger les requêtes vers les vues appropriées.</li>
+              <li>Il existe un schéma d'URL pour afficher les résultats statistiques, qui inclut un paramètre (précédemment <code>pk</code>, maintenant <code>result_id</code>) pour identifier le résultat spécifique à afficher.</li>
+            </ul>
+          </li>
+          <li>
+            <p><strong>Gestion des Erreurs :</strong></p>
+            <ul>
+              <li>L'application inclut la gestion des erreurs, comme on le voit dans le bloc <code>try-except</code> de la fonction <code>result_view</code>, où une exception <code>Http404</code> est levée si le résultat demandé n'existe pas.</li>
+            </ul>
+          </li>
+          <li>
+            <p><strong>Paramètres :</strong></p>
+            <ul>
+              <li>Les paramètres du projet indiquent l'utilisation d'une base de données MySQL et d'autres configurations Django.</li>
+              <li>Le mode de débogage est activé, fournissant des informations détaillées sur les erreurs pendant le développement.</li>
+            </ul>
+          </li>
+          <li>
+            <p><strong>Fichiers Statiques et Média :</strong></p>
+            <ul>
+              <li>Le projet peut traiter les fichiers statiques (CSS, JavaScript) et les fichiers média (téléchargés par les utilisateurs).</li>
+            </ul>
+          </li>
+          <li>
+            <p><strong>Déploiement :</strong></p>
+            <ul>
+              <li>L'application semble fonctionner sur un serveur de développement local (<code>http://127.0.0.1:8000/</code>) pendant les tests.</li>
+            </ul>
+          </li>
+          <li>
+            <p><strong>Interface Utilisateur :</strong></p>
+            <ul>
+              <li>Bien que les détails de l'interface utilisateur ne soient pas détaillés, le projet comprend probablement des formulaires pour le téléchargement de fichiers et des pages pour afficher les résultats statistiques.</li>
+            </ul>
+          </li>
+        </ol>
+        <p>
+          N'oubliez pas d'adapter cette description en fonction des fonctionnalités réelles et des caractéristiques mises en œuvre dans votre projet. Si d'autres composants ou fonctionnalités spécifiques doivent être mis en avant, veuillez fournir plus de détails pour une description plus précise.
+        </p>
+      </div>
+      
+
+    <!-- Include Bootstrap JS and Popper.js via CDN -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
