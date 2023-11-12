@@ -11,9 +11,15 @@
 ### Install libraries
 - pip install django pandas matplotlib
 - pip install lxml
+
+#### Windows: 
+- Installer mysql
+#### Linux/ubuntu: 
 - sudo apt-get install libmysqlclient-dev
 - export MYSQLCLIENT_CFLAGS="-I/usr/include/mysql"
 - export MYSQLCLIENT_LDFLAGS="-L/usr/lib/x86_64-linux-gnu -lmysqlclient"
+
+#### python mysql client:
 - pip install mysqlclient
 
 ### Config stats_project/settings.py
