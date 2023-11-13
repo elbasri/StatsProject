@@ -16,6 +16,22 @@ def process_data(file_path):
     df = pd.read_csv(file_path)
     # Effectuez des opérations statistiques.
 
+    df["Chiffre_Affaire"] = df["Quantité"] * df["Prix"]
+    Chiffre = df.groupby('Produit')["Chiffre_Affaire"].sum()
+    ChiffreTotale = df["Chiffre_Affaire"].sum()
+
+    print("Chiffre d'affaire: {}".format(Chiffre))
+    print("Chiffre d'affaire Total: {}".format(ChiffreTotale))
+
+    #3
+    topProd = Chiffre.nlargest(5)
+
+    #4
+    df['Date'] = pd.to_datetime(df['Date'])
+    df['Mois'] = df['Date'].dt.strftime('%Y-%m')
+    monthly_revenue = df.groupby('Mois')['Chiffre_Affaire'].sum()
+    monthly_df = pd.DataFrame({'Mois': monthly_revenue.index, 'Chiffre d\'affaires total': monthly_revenue.values})
+
     # Votre représentation graphique en utilisant Matplotlib.
     #Date,Produit,Quantité,Prix,Client
     plt.plot(df['Produit'], df['Prix'])
