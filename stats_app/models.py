@@ -7,3 +7,5 @@ class UploadedFile(models.Model):
 class Result(models.Model):
     uploaded_file = models.ForeignKey(UploadedFile, on_delete=models.CASCADE)
     result_text = models.TextField()
+    topProd = models.TextField()
+    monthly_revenue = models.TextField()

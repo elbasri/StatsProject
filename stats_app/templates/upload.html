@@ -1,6 +1,47 @@
 <!-- stats_app/templates/upload.html -->
-<form method="post" enctype="multipart/form-data" action="{% url 'upload' %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Telecharger</button>
-</form>
+<!-- stats_app/templates/home.html -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Centre de telechagrement</title>
+        <meta name="description" content="Cet projet est une application web basée sur Django conçue pour l'analyse statistique" />
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container mt-5">
+            <h1>Centre de telechagrement</h1>
+            <p>Cet projet est une application web basée sur Django conçue pour l'analyse statistique</p>
+
+        <div class="container">
+            <div class="row mx-0 justify-content-center">
+              <div class="col-md-7 col-lg-5 px-lg-2 col-xl-4 px-xl-0 px-xxl-3">
+                <form
+                  method="POST"
+                  class="w-100 rounded-1 p-4 border bg-white"
+                  enctype="multipart/form-data" action="{% url 'upload' %}"
+                >
+                  <label class="d-block mb-4">
+                    <span class="form-label d-block">Votre Fichier</span>
+                    {{ form.as_p }}
+                  </label>
+          
+                  <div class="mb-3">
+                    <button type="submit" class="btn btn-primary px-3 rounded-3">
+                        Telecharger
+                    </button>
+                  </div>
+          
+                  <div class="d-block text-end">
+                    <div class="small">
+                      .. Test text
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          
+
+
+    </body>
+</html>

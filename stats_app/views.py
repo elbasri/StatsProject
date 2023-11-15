@@ -11,39 +11,64 @@ from io import StringIO
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.utils.safestring import mark_safe
+import mpld3, random
 
-def process_data(file_path):
+def process_data(file_path, type):
     df = pd.read_csv(file_path)
     # Effectuez des opérations statistiques.
-
-    df["Chiffre_Affaire"] = df["Quantité"] * df["Prix"]
-    Chiffre = df.groupby('Produit')["Chiffre_Affaire"].sum()
-    ChiffreTotale = df["Chiffre_Affaire"].sum()
-
-    print("Chiffre d'affaire: {}".format(Chiffre))
-    print("Chiffre d'affaire Total: {}".format(ChiffreTotale))
-
-    #3
-    topProd = Chiffre.nlargest(5)
-
-    #4
-    df['Date'] = pd.to_datetime(df['Date'])
-    df['Mois'] = df['Date'].dt.strftime('%Y-%m')
-    monthly_revenue = df.groupby('Mois')['Chiffre_Affaire'].sum()
-    monthly_df = pd.DataFrame({'Mois': monthly_revenue.index, 'Chiffre d\'affaires total': monthly_revenue.values})
-
     # Votre représentation graphique en utilisant Matplotlib.
     #Date,Produit,Quantité,Prix,Client
-    plt.plot(df['Produit'], df['Prix'])
-    plt.savefig('stats_app/static/graph.png')
+    
+    graphName = random.randint(1,9999)
+    #plt.savefig('stats_app/static/graph.png')
+    html_file_path = graphName+"output.html"
+
 
 
     # Capturez la sortie de df.info() sous forme de chaîne de caractères.
-    info_buffer = StringIO()
-    df.info(buf=info_buffer, verbose=True, show_counts=True)
-    info_html = info_buffer.getvalue()
+    if(type == "topProd"):
+        df["Chiffre_Affaire"] = df["Quantité"] * df["Prix"]
+        Chiffre = df.groupby('Produit')["Chiffre_Affaire"].sum()
+        ChiffreTotale = df["Chiffre_Affaire"].sum()
 
-    return info_html
+        print("Chiffre d'affaire: {}".format(Chiffre))
+        print("Chiffre d'affaire Total: {}".format(ChiffreTotale))
+        ProcResultat = Chiffre.nlargest(10)
+
+        # Create a Matplotlib figure
+        fig, ax = plt.subplots()
+        plt.plot(df['Produit'], df['Prix'])
+        # Save the figure as an HTML file using mpld3
+        mpld3.save_html(fig, html_file_path)
+    elif(type == "mounthlyRev"):
+        
+        df["Chiffre_Affaire"] = df["Quantité"] * df["Prix"]
+        Chiffre = df.groupby('Produit')["Chiffre_Affaire"].sum()
+        ChiffreTotale = df["Chiffre_Affaire"].sum()
+
+        #4
+        df['Date'] = pd.to_datetime(df['Date'])
+        df['Mois'] = df['Date'].dt.strftime('%Y-%m')
+        monthly_revenue = df.groupby('Mois')['Chiffre_Affaire'].sum()
+        ProcResultat = pd.DataFrame({'Mois': monthly_revenue.index, 'Chiffre d\'affaires total': monthly_revenue.values})
+
+        # Create a Matplotlib figure
+        fig, ax = plt.subplots()
+        plt.plot(df['Mois'], df['Chiffre_Affaire'])
+        # Save the figure as an HTML file using mpld3
+        mpld3.save_html(fig, html_file_path)
+    else:
+        info_buffer = StringIO()
+        df.info(buf=info_buffer, verbose=True, show_counts=True)
+        ProcResultat = info_buffer.getvalue()
+
+        # Create a Matplotlib figure
+        fig, ax = plt.subplots()
+        plt.plot(df['Produit'], df['Prix'])
+        # Save the figure as an HTML file using mpld3
+        mpld3.save_html(fig, html_file_path)
+
+    return [ProcResultat, file_path]
 
 def upload_file(request):
     if request.method == 'POST':
@@ -63,7 +88,9 @@ def upload_file(request):
             file_path = default_storage.path(file_path)
 
             # Traitez le fichier et obtenez les informations du DataFrame.
-            result_text = process_data(file_path)
+            result_text = process_data(file_path, "dfInfo")
+            result_text = process_data(file_path, "topProd")
+            result_text = process_data(file_path, "mounthlyRev")
 
             # Enregistrez le résultat dans la base de données.
             instance = Result.objects.create(
