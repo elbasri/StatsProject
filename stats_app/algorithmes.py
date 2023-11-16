@@ -6,7 +6,6 @@ import pandas as pd
 def dJ0(df, m,t0,t1, x0_col, x1_col, y_col):
     s = 0
     for i in range(m):
-        #s += ((t0*df.x0[i] +t1*df.x1[i])-df.y[i])*df.x0[i]
         s += ((t0 * df[x0_col][i] + t1 * df[x1_col][i]) - df[y_col][i]) * df[x0_col][i]
     return s/m 
 
