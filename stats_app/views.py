@@ -12,6 +12,7 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.utils.safestring import mark_safe
 import mpld3, random
+from .algorithmes import *
 
 def process_data(file_path, type):
     df = pd.read_csv(file_path)
@@ -21,7 +22,7 @@ def process_data(file_path, type):
     
     graphName = random.randint(1,9999)
     #plt.savefig('stats_app/static/graph.png')
-    html_file_path = graphName+"output.html"
+    html_file_path = str(graphName)+"output.html"
 
 
 
@@ -57,6 +58,11 @@ def process_data(file_path, type):
         plt.plot(df['Mois'], df['Chiffre_Affaire'])
         # Save the figure as an HTML file using mpld3
         mpld3.save_html(fig, html_file_path)
+    elif(type == "GradientDescent"):
+        df.columns = ['x0','x1','y']
+        mse_list = gradientD(df)
+        plt.plot(np.arange(nbrIteration),mse_list)
+        
     else:
         info_buffer = StringIO()
         df.info(buf=info_buffer, verbose=True, show_counts=True)

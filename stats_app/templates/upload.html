@@ -20,9 +20,18 @@
                   class="w-100 rounded-1 p-4 border bg-white"
                   enctype="multipart/form-data" action="{% url 'upload' %}"
                 >
+                {% csrf_token %}
                   <label class="d-block mb-4">
-                    <span class="form-label d-block">Votre Fichier</span>
                     {{ form.as_p }}
+                  </label>
+
+                  <label class="d-block mb-4">
+                    <span class="form-label d-block">Algorithme</span>
+                    <select id="algorithme" multiple="multiple">
+                        <option value="topProd">topProd</option>
+                        <option value="mounthlyRev">mounthlyRev</option>
+                        <option value="GradientDescent" selected>Gradient descent</option>
+                     </select>                     
                   </label>
           
                   <div class="mb-3">
@@ -41,7 +50,21 @@
             </div>
           </div>
           
+        <script>
+            $(document).ready(function() {
+               $('#algorithme').multiselect();
+            });
+            
+            $(document).ready(function() {
+                $('#mySelect').multiselect({
+                    enableFiltering: true,
+                    includeSelectAllOption: true,
+                    // Add more options as needed
+                });
+            });
+        </script>
 
+         
 
     </body>
 </html>
