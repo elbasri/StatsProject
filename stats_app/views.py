@@ -22,7 +22,7 @@ def process_data(file_path, type):
     
     graphName = random.randint(1,9999)
     #plt.savefig('stats_app/static/graph.png')
-    html_file_path = str(graphName)+"output.html"
+    html_file_path = "/home/abdennacer/Documents/python/StatistiquesPy/stats_projet/uploads/uploads/"+str(graphName)+"output.html"
 
 
 
@@ -60,8 +60,53 @@ def process_data(file_path, type):
         mpld3.save_html(fig, html_file_path)
     elif(type == "GradientDescent"):
         df.columns = ['x0','x1','y']
-        mse_list = gradientD(df)
+        alpha, t0, t1, nbrIteration, m = 0.0002, 1, 2, 200, 50
+        mse_list = gradientD(df, alpha, t0, t1, nbrIteration, m)
+        fig, ax = plt.subplots()
         plt.plot(np.arange(nbrIteration),mse_list)
+        mpld3.save_html(fig, html_file_path)
+
+    elif(type == "NormalizeMinMax"):
+        df.drop('Address', axis=1, inplace=True)
+        ProcResultat = pd.DataFrame()
+        ProcResultat = df.apply(minmax)
+        fig, axes = plt.subplots(nrows=1, ncols=len(ProcResultat.columns)-1, figsize=(15, 5))
+        for i, column in enumerate(ProcResultat.columns):
+            if column != 'Price':
+                axes[i].scatter(ProcResultat['Price'], ProcResultat[column], label=column)
+                axes[i].set_title(column)
+                axes[i].set_xlabel('Price')
+                axes[i].set_ylabel(column)
+                axes[i].legend()
+
+        plt.tight_layout()
+        mpld3.save_html(fig, html_file_path)
+        
+    elif(type == "GradientDescentN"):
+        df.drop('Address', axis=1, inplace=True)
+        dataframeRes = pd.DataFrame()
+        dataframeRes = df.apply(minmax)
+        dataframeRes["x0"] = 1
+        alpha, t0, t1, nbrIteration, m = 0.0002, 1, 2, 15000, 50
+        ProcResultat = gradientD(dataframeRes, alpha, t0, t1, nbrIteration, m, "x0", "Avg. Area Income", "Price")
+
+        fig, ax = plt.subplots()
+        plt.plot(np.arange(nbrIteration),ProcResultat)
+        plt.tight_layout()
+        mpld3.save_html(fig, html_file_path)
+        
+    elif(type == "MseN"):
+        df.drop('Address', axis=1, inplace=True)
+        dataframeRes = pd.DataFrame()
+        dataframeRes = df.apply(minmax)
+        dataframeRes["x0"] = 1
+        alpha, t0, t1, nbrIteration, m = 0.0002, 1, 2, 200, 50
+        ProcResultat = MSE(dataframeRes, t0, t1, m, "Avg. Area Income", "Price")
+
+        fig, ax = plt.subplots()
+        plt.plot(np.arange(nbrIteration),ProcResultat)
+        plt.tight_layout()
+        mpld3.save_html(fig, html_file_path)
         
     else:
         info_buffer = StringIO()
@@ -70,17 +115,20 @@ def process_data(file_path, type):
 
         # Create a Matplotlib figure
         fig, ax = plt.subplots()
-        plt.plot(df['Produit'], df['Prix'])
+        plt.plot(df[type], df['Prix'])
         # Save the figure as an HTML file using mpld3
         mpld3.save_html(fig, html_file_path)
 
-    return [ProcResultat, file_path]
+    return [ProcResultat, html_file_path]
 
 def upload_file(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
             uploaded_file = request.FILES['file']
+            selected_options = request.POST.getlist('algorithme')
+            first_selected_value = selected_options[0] if selected_options else None
+
             instance = UploadedFile(file=uploaded_file)
             instance.save()
             
@@ -94,9 +142,9 @@ def upload_file(request):
             file_path = default_storage.path(file_path)
 
             # Traitez le fichier et obtenez les informations du DataFrame.
-            result_text = process_data(file_path, "dfInfo")
-            result_text = process_data(file_path, "topProd")
-            result_text = process_data(file_path, "mounthlyRev")
+            result_text = process_data(file_path, first_selected_value)
+            #result_text = process_data(file_path, "topProd")
+            #result_text = process_data(file_path, "mounthlyRev")
 
             # Enregistrez le résultat dans la base de données.
             instance = Result.objects.create(

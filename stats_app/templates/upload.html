@@ -21,18 +21,7 @@
                   enctype="multipart/form-data" action="{% url 'upload' %}"
                 >
                 {% csrf_token %}
-                  <label class="d-block mb-4">
-                    {{ form.as_p }}
-                  </label>
-
-                  <label class="d-block mb-4">
-                    <span class="form-label d-block">Algorithme</span>
-                    <select id="algorithme" multiple="multiple">
-                        <option value="topProd">topProd</option>
-                        <option value="mounthlyRev">mounthlyRev</option>
-                        <option value="GradientDescent" selected>Gradient descent</option>
-                     </select>                     
-                  </label>
+                  {{ form.as_p }}
           
                   <div class="mb-3">
                     <button type="submit" class="btn btn-primary px-3 rounded-3">
