@@ -2,8 +2,10 @@
 <h2>Resultat</h2>
 <p>Fichier: {{ uploaded_file.file }}</p>
 <div class="markdown prose w-full break-words dark:prose-invert light">
-    <p><strong>Informations:</strong></p>
+    <p><strong>Graph:</strong></p>
     
-    <!-- Display DataFrame.info() in a table -->
+    {% include result.graph %}
+
+    <p><strong>Data:</strong></p>
     {{ result.result_text | safe }}
 </div>

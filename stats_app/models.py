@@ -9,3 +9,4 @@ class Result(models.Model):
     result_text = models.TextField()
     topProd = models.TextField()
     monthly_revenue = models.TextField()
+    graph = models.TextField()

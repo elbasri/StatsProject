@@ -22,7 +22,7 @@ def process_data(file_path, type):
     
     graphName = random.randint(1,9999)
     #plt.savefig('stats_app/static/graph.png')
-    html_file_path = "/home/abdennacer/Documents/python/StatistiquesPy/stats_projet/uploads/uploads/"+str(graphName)+"output.html"
+    html_file_path = "graphs/"+str(graphName)+"output.html"
 
 
 
@@ -87,7 +87,7 @@ def process_data(file_path, type):
         dataframeRes = pd.DataFrame()
         dataframeRes = df.apply(minmax)
         dataframeRes["x0"] = 1
-        alpha, t0, t1, nbrIteration, m = 0.0002, 1, 2, 15000, 50
+        alpha, t0, t1, nbrIteration, m = 0.0002, 1, 2, 1000, 50
         ProcResultat = gradientD(dataframeRes, alpha, t0, t1, nbrIteration, m, "x0", "Avg. Area Income", "Price")
 
         fig, ax = plt.subplots()
@@ -149,7 +149,8 @@ def upload_file(request):
             # Enregistrez le résultat dans la base de données.
             instance = Result.objects.create(
                 uploaded_file_id=uploaded_file_id,
-                result_text=result_text
+                result_text=result_text[0],
+                graph=result_text[1]
             )
             instance.save()
 
@@ -161,16 +162,23 @@ def upload_file(request):
 def result_view(request, result_id):
     try:
         result = Result.objects.get(id=result_id)
-        df_info = result.result_text
-        df_info_html = pd.DataFrame().to_html()
-
         uploaded_file = get_object_or_404(UploadedFile, id=result.uploaded_file_id)
+
+        html_file_path = result.graph
+        # Check if the file exists
+        if os.path.exists(html_file_path):
+            # Read the content of the HTML file
+            with open(html_file_path, 'r') as html_file:
+                result.graph = html_file.read()
+        else:
+            raise Http404("HTML file not found")
+        
     except Result.DoesNotExist:
         raise Http404("Result does not exist")
     except UploadedFile.DoesNotExist:
         raise Http404("Uploaded file does not exist")
 
-    return render(request, 'result.html', {'result': result, 'uploaded_file': uploaded_file, 'df_info': df_info_html})
+    return render(request, 'result.html', {'result': result, 'uploaded_file': uploaded_file})
 
 
 def home(request):
