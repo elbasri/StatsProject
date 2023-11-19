@@ -4,7 +4,8 @@
 <div class="markdown prose w-full break-words dark:prose-invert light">
     <p><strong>Graph:</strong></p>
     
-    {% include result.graph %}
+    {{ result.graph }}
+    {{ html_content|safe }}
 
     <p><strong>Data:</strong></p>
     {{ result.result_text | safe }}

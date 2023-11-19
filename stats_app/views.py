@@ -169,16 +169,16 @@ def result_view(request, result_id):
         if os.path.exists(html_file_path):
             # Read the content of the HTML file
             with open(html_file_path, 'r') as html_file:
-                result.graph = html_file.read()
+                html_content = html_file.read()
         else:
-            raise Http404("HTML file not found")
+            html_content = "No Graph"
         
     except Result.DoesNotExist:
         raise Http404("Result does not exist")
     except UploadedFile.DoesNotExist:
         raise Http404("Uploaded file does not exist")
 
-    return render(request, 'result.html', {'result': result, 'uploaded_file': uploaded_file})
+    return render(request, 'result.html', {'result': result, 'uploaded_file': uploaded_file, 'html_content': html_content})
 
 
 def home(request):
