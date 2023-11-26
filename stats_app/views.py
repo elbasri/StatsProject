@@ -4,7 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 from django.shortcuts import render, redirect
-from .models import UploadedFile, Result
+from .models import UploadedFile, Result, Statsprj
 from .forms import UploadFileForm
 from django.core.files.storage import default_storage
 from io import StringIO
@@ -13,12 +13,19 @@ from django.shortcuts import get_object_or_404
 from django.utils.safestring import mark_safe
 import mpld3, random
 from .algorithmes import *
+from .serializers import StatsprjSerializer
+from rest_framework import viewsets
+
+
+class StatsprjlViewSet(viewsets.ModelViewSet):
+    queryset = Statsprj.objects.all()
+    serializer_class = StatsprjSerializer
 
 def process_data(file_path, type):
     df = pd.read_csv(file_path)
     # Effectuez des opérations statistiques.
     # Votre représentation graphique en utilisant Matplotlib.
-    #Date,Produit,Quantité,Prix,Client
+    #Date,Produit,Quantité,Prix,Client 
     
     graphName = random.randint(1,9999)
     #plt.savefig('stats_app/static/graph.png')
@@ -87,7 +94,7 @@ def process_data(file_path, type):
         dataframeRes = pd.DataFrame()
         dataframeRes = df.apply(minmax)
         dataframeRes["x0"] = 1
-        alpha, t0, t1, nbrIteration, m = 0.0002, 1, 2, 1000, 50
+        alpha, t0, t1, nbrIteration, m = 0.0002, 1, 2, 10000, 50
         ProcResultat = gradientD(dataframeRes, alpha, t0, t1, nbrIteration, m, "x0", "Avg. Area Income", "Price")
 
         fig, ax = plt.subplots()
@@ -106,6 +113,11 @@ def process_data(file_path, type):
         fig, ax = plt.subplots()
         plt.plot(np.arange(nbrIteration),ProcResultat)
         plt.tight_layout()
+        mpld3.save_html(fig, html_file_path)
+
+    elif(type == "visualiser"):
+        fig = visualiserCol(df, "Prix", "histograme")
+        ProcResultat = ".."
         mpld3.save_html(fig, html_file_path)
         
     else:

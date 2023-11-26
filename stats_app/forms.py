@@ -6,6 +6,7 @@ class UploadFileForm(forms.Form):
     algorithme = forms.MultipleChoiceField(
         choices=[
             ('topProd', 'topProd'),
+            ('visualiser', 'Visualiser'),
             ('mounthlyRev', 'mounthlyRev'),
             ('GradientDescent', 'Gradient descent'),
             ('NormalizeMinMax', 'Normalizer(MinMax)'),
@@ -14,3 +15,4 @@ class UploadFileForm(forms.Form):
         ],
         widget=forms.SelectMultiple(attrs={'class': 'form-control'})
     )
+    externe = forms.Field()

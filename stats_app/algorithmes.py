@@ -9,7 +9,7 @@ def dJ0(df, m,t0,t1, x0_col, x1_col, y_col):
         s += ((t0 * df[x0_col][i] + t1 * df[x1_col][i]) - df[y_col][i]) * df[x0_col][i]
     return s/m 
 
-#gradient 1
+#gradient 1 
 def dJ1(df, m,t0,t1, x0_col, x1_col, y_col):
     s = 0
     for i in range(m):
@@ -36,3 +36,20 @@ def minmax(x1):
 
 def normalize(df):
     return df.apply(minmax)
+
+def visualiserCol(df, col, typeGraph):
+    fig, ax = plt.subplots()
+    
+    # Plot the column data
+    # ax.plot(df[col], label=col)
+    ax.hist(df[col], bins='auto', color='blue', alpha=0.7)
+
+    # Set plot title and axis labels
+    ax.set_title(f'{typeGraph} - {col}')
+    ax.set_xlabel('X-axis Label')
+    ax.set_ylabel('Y-axis Label')
+
+    # Add legend if needed
+    ax.legend()
+
+    return fig

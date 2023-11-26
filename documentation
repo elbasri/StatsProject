@@ -10,6 +10,8 @@
 - export MYSQLCLIENT_CFLAGS="-I/usr/include/mysql"
 - export MYSQLCLIENT_LDFLAGS="-L/usr/lib/x86_64-linux-gnu -lmysqlclient"
 - pip install mysqlclient
+- pip install django-cors-headers
+- pip install djangorestframework
 
 #Config stats_project/settings.py
 - installed_apps: 'stats_app'
