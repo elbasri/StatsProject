@@ -12,6 +12,7 @@
 - pip install mysqlclient
 - pip install django-cors-headers
 - pip install djangorestframework
+- pip install mpld3
 
 #Config stats_project/settings.py
 - installed_apps: 'stats_app'
