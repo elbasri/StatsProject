@@ -35,12 +35,43 @@ import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
 import Projects from "layouts/dashboard/components/Projects";
 import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
 
+import React, { useEffect, useState } from 'react';
+
 function Dashboard() {
   const { sales, tasks } = reportsLineChartData;
+  const [dataFromServer, setDataFromServer] = useState(null);
+  // Function to fetch data from the server
+  const fetchDataFromServer = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/results/');
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const data = await response.json();
+      setDataFromServer(data);
+    } catch (error) {
+      console.error('Error fetching data:', error.message);
+    }
+  };
+   // Fetch data when the component mounts
+   useEffect(() => {
+    fetchDataFromServer();
+  }, []); // Empty dependency array means it will only run once when the component mounts
 
   return (
     <DashboardLayout>
       <DashboardNavbar />
+      <MDBox>
+        {/* ... (existing code) */}
+        {/* Display the data received from the server */}
+        {dataFromServer && (
+          <div>
+            <h2>List des fichiers:</h2>
+            <pre>{JSON.stringify(dataFromServer, null, 2)}</pre>
+          </div>
+        )}
+        
+      </MDBox>
       <MDBox py={3}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={6} lg={3}>

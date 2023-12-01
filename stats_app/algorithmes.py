@@ -53,3 +53,4 @@ def visualiserCol(df, col, typeGraph):
     ax.legend()
 
     return fig
+

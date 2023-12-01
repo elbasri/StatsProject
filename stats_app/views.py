@@ -13,13 +13,17 @@ from django.shortcuts import get_object_or_404
 from django.utils.safestring import mark_safe
 import mpld3, random
 from .algorithmes import *
-from .serializers import StatsprjSerializer
+from .serializers import *
 from rest_framework import viewsets
+from rest_framework import generics
 
+class UploadedFileListCreate(generics.ListCreateAPIView):
+    queryset = UploadedFile.objects.all()
+    serializer_class = UploadedFileSerializer
 
-class StatsprjlViewSet(viewsets.ModelViewSet):
-    queryset = Statsprj.objects.all()
-    serializer_class = StatsprjSerializer
+class ResultListCreate(generics.ListCreateAPIView):
+    queryset = Result.objects.all()
+    serializer_class = ResultSerializer
 
 def process_data(file_path, type):
     df = pd.read_csv(file_path)
