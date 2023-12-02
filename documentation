@@ -36,4 +36,4 @@
 - python3 manage.py createsuperuser
 (stats, stats@mail.com, ncr)
 
-#Test: python manage.py runserver
+#Test: python3 manage.py runserver
