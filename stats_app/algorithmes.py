@@ -54,3 +54,33 @@ def visualiserCol(df, col, typeGraph):
 
     return fig
 
+def description_dataframe(df):
+    """
+    Cette fonction affiche les statistiques descriptives pour un DataFrame donné.
+    """
+    description = df.describe()
+    print("Statistiques descriptives du DataFrame :")
+    print(description)
+
+def longueur_dataframe(df):
+    """
+    Cette fonction prend un DataFrame en entrée et renvoie la longueur, c'est-à-dire le nombre de lignes du DataFrame.
+    """
+    return len(df)
+
+def premieres_valeurs(df, nombre_lignes=5):
+    """
+    Cette fonction affiche les premières valeurs d'un DataFrame.
+    """
+    premieres_lignes = df.head(nombre_lignes)
+    print("Les", nombre_lignes, "premières lignes du DataFrame :")
+    print(premieres_lignes)
+
+def valeurs_recentes(df, nombre_lignes=5):
+    """
+    Cette fonction affiche les valeurs les plus récentes ajoutées à un DataFrame.
+    """
+    dernieres_valeurs = df.tail(nombre_lignes)
+    print("Les", nombre_lignes, "dernières lignes du DataFrame :")
+    print(dernieres_valeurs)
+
