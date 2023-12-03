@@ -13,4 +13,5 @@ urlpatterns = [
     path('', include(router.urls)),
     path('api/uploaded-files/', UploadedFileListCreate.as_view(), name='uploaded-files-list'),
     path('api/results/', ResultListCreate.as_view(), name='results-list'),
+    path('counts/', get_statistics, name='get_statistics'),
 ]

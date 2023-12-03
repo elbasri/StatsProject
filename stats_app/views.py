@@ -16,14 +16,83 @@ from .algorithmes import *
 from .serializers import *
 from rest_framework import viewsets
 from rest_framework import generics
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from django.http import JsonResponse
+
+def parse_uploaded_file(request):
+    if request.method == 'POST' and request.FILES['file']:
+        file = request.FILES['file']
+
+        # Handle CSV file
+        if file.name.endswith('.csv'):
+            df = pd.read_csv(file)
+
+        # Handle Excel file
+        elif file.name.endswith(('.xls', '.xlsx')):
+            df = pd.read_excel(file)
+
+        # Process the DataFrame (apply algorithms, etc.) if needed
+        # ...
+
+        # Convert DataFrame to JSON and send it back
+        data = df.to_json(orient='split')
+        return JsonResponse({'data': data})
+
+    return JsonResponse({'error': 'Invalid request'})
 
 class UploadedFileListCreate(generics.ListCreateAPIView):
     queryset = UploadedFile.objects.all()
     serializer_class = UploadedFileSerializer
 
+    def perform_create(self, serializer):
+        instance = serializer.save()
+        # Parse the CSV file and store data in the database
+        if instance.file.name.endswith('.csv'):
+            df = pd.read_csv(instance.file.path)
+        elif instance.file.name.endswith(('.xls', '.xlsx')):
+            df = pd.read_excel(instance.file.path)
+        else:
+            # Handle other file types or raise an exception if needed
+            raise ValueError('Unsupported file format')
+
+        # ... (perform other data processing as needed)
+
+        # Update the serializer with additional fields if necessary
+        serializer.instance = instance
+        parsed_data = {
+            'columns': df.columns.tolist(),
+            'rows': df.values.tolist(),
+        }
+        serializer.validated_data['parsed_data'] = parsed_data
+
+        instance.save()
+        serializer.save()
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.queryset
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)
+
 class ResultListCreate(generics.ListCreateAPIView):
     queryset = Result.objects.all()
     serializer_class = ResultSerializer
+
+@api_view(['GET'])
+def get_statistics(request):
+    total_files = UploadedFile.objects.count()
+    total_results = Result.objects.count()
+    graph_results = Result.objects.exclude(graph='').count()
+
+    # Add more statistics as needed
+
+    data = {
+        'total_files': total_files,
+        'total_results': total_results,
+        'graph_results': graph_results,
+    }
+
+    return Response(data)
 
 def process_data(file_path, type):
     df = pd.read_csv(file_path)

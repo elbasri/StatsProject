@@ -4,7 +4,7 @@ from .models import UploadedFile, Result, Statsprj
 class UploadedFileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UploadedFile
-        fields = '__all__'
+        fields = ['id', 'file', 'uploaded_at', 'parsed_data']
 
 class ResultSerializer(serializers.ModelSerializer):
     class Meta:

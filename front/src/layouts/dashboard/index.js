@@ -40,6 +40,8 @@ import React, { useEffect, useState } from 'react';
 function Dashboard() {
   const { sales, tasks } = reportsLineChartData;
   const [dataFromServer, setDataFromServer] = useState(null);
+  const [statistics, setStatistics] = useState(null);
+
   // Function to fetch data from the server
   const fetchDataFromServer = async () => {
     try {
@@ -56,7 +58,24 @@ function Dashboard() {
    // Fetch data when the component mounts
    useEffect(() => {
     fetchDataFromServer();
-  }, []); // Empty dependency array means it will only run once when the component mounts
+  }, []);
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:8000/api/counts/');
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        setStatistics(data);
+      } catch (error) {
+        console.error('Error fetching statistics:', error.message);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <DashboardLayout>
@@ -67,69 +86,49 @@ function Dashboard() {
         {dataFromServer && (
           <div>
             <h2>List des fichiers:</h2>
-            <pre>{JSON.stringify(dataFromServer, null, 2)}</pre>
+            {/*<pre>{JSON.stringify(dataFromServer, null, 2)}</pre>*/}
           </div>
         )}
         
       </MDBox>
       <MDBox py={3}>
         <Grid container spacing={3}>
-          <Grid item xs={12} md={6} lg={3}>
+          <Grid item xs={12} md={6} lg={4}>
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
                 color="dark"
-                icon="weekend"
-                title="Bookings"
-                count={281}
+                icon="person_add"
+                title="Fichiers"
+                count={statistics ? ( <span>{statistics.total_files}</span> ) : (  0 )}
                 percentage={{
                   color: "success",
-                  amount: "+55%",
-                  label: "than lask week",
+                  amount: "+90%",
+                  label: "Nouveau utilisateurs (plusieurs fichiers par utilisateur)",
                 }}
               />
             </MDBox>
           </Grid>
-          <Grid item xs={12} md={6} lg={3}>
+          <Grid item xs={12} md={6} lg={4}>
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
-                icon="leaderboard"
-                title="Today's Users"
-                count="2,300"
+                icon="store"
+                title="Resultats"
+                count={statistics ? ( <span>{statistics.total_results}</span> ) : (  0 )}
                 percentage={{
                   color: "success",
-                  amount: "+3%",
-                  label: "than last month",
+                  amount: "+85%",
+                  label: "Avec des graphs",
                 }}
               />
             </MDBox>
           </Grid>
-          <Grid item xs={12} md={6} lg={3}>
+          <Grid item xs={12} md={6} lg={4}>
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
                 color="success"
-                icon="store"
-                title="Revenue"
-                count="34k"
-                percentage={{
-                  color: "success",
-                  amount: "+1%",
-                  label: "than yesterday",
-                }}
-              />
-            </MDBox>
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="primary"
-                icon="person_add"
-                title="Followers"
-                count="+91"
-                percentage={{
-                  color: "success",
-                  amount: "",
-                  label: "Just updated",
-                }}
+                icon="leaderboard"
+                title="Resultats avec des Graphs"
+                count={statistics ? ( <span>{statistics.graph_results}</span> ) : (  0 )}
               />
             </MDBox>
           </Grid>
