@@ -84,3 +84,66 @@ def valeurs_recentes(df, nombre_lignes=5):
     print("Les", nombre_lignes, "dernières lignes du DataFrame :")
     print(dernieres_valeurs)
 
+def mediane_colonne(dataframe, nom_colonne):
+    # Vérifier si la colonne existe dans la DataFrame
+    if nom_colonne in dataframe.columns:
+        # Extraire la colonne spécifiée
+        colonne = dataframe[nom_colonne]
+        
+        # Vérifier si la colonne est numérique
+        if pd.api.types.is_numeric_dtype(colonne):
+            # Calculer la médiane de la colonne
+            mediane = colonne.median()
+            return mediane
+        else:
+            return f"La colonne '{nom_colonne}' n'est pas de type numérique."
+    else:
+        return f"La colonne '{nom_colonne}' n'existe pas dans la DataFrame."
+
+def moyenne_colonne(dataframe, nom_colonne):
+    # Vérifier si la colonne existe dans la DataFrame
+    if nom_colonne in dataframe.columns:
+        # Extraire la colonne spécifiée
+        colonne = dataframe[nom_colonne]
+        
+        # Vérifier si la colonne est numérique
+        if pd.api.types.is_numeric_dtype(colonne):
+            # Calculer la moyenne de la colonne
+            moyenne = colonne.mean()
+            return moyenne
+        else:
+            return f"La colonne '{nom_colonne}' n'est pas de type numérique."
+    else:
+        return f"La colonne '{nom_colonne}' n'existe pas dans la DataFrame."
+
+def variance_colonne(dataframe, nom_colonne):
+    # Vérifier si la colonne existe dans la DataFrame
+    if nom_colonne in dataframe.columns:
+        # Extraire la colonne spécifiée
+        colonne = dataframe[nom_colonne]
+        
+        # Vérifier si la colonne est numérique
+        if pd.api.types.is_numeric_dtype(colonne):
+            # Calculer la variance de la colonne
+            variance = colonne.var()
+            return variance
+        else:
+            return f"La colonne '{nom_colonne}' n'est pas de type numérique."
+    else:
+        return f"La colonne '{nom_colonne}' n'existe pas dans la DataFrame."
+
+def ecart_type_colonne(dataframe, nom_colonne):
+    # Vérifier si la colonne existe dans la DataFrame
+    if nom_colonne in dataframe.columns:
+        # Extraire la colonne spécifiée
+        colonne = dataframe[nom_colonne]
+        
+        # Vérifier si la colonne est numérique
+        if pd.api.types.is_numeric_dtype(colonne):
+            # Calculer l'écart type de la colonne
+            ecart_type = colonne.std()
+            return ecart_type
+        else:
+            return f"La colonne '{nom_colonne}' n'est pas de type numérique."
+    else:
+        return f"La colonne '{nom_colonne}' n'existe pas dans la DataFrame."
