@@ -84,11 +84,11 @@ def valeurs_recentes(df, nombre_lignes=5):
     print("Les", nombre_lignes, "dernières lignes du DataFrame :")
     print(dernieres_valeurs)
 
-def mediane_colonne(dataframe, nom_colonne):
+def mediane_colonne(df, nom_colonne):
     # Vérifier si la colonne existe dans la DataFrame
-    if nom_colonne in dataframe.columns:
+    if nom_colonne in df.columns:
         # Extraire la colonne spécifiée
-        colonne = dataframe[nom_colonne]
+        colonne = df[nom_colonne]
         
         # Vérifier si la colonne est numérique
         if pd.api.types.is_numeric_dtype(colonne):
@@ -100,11 +100,11 @@ def mediane_colonne(dataframe, nom_colonne):
     else:
         return f"La colonne '{nom_colonne}' n'existe pas dans la DataFrame."
 
-def moyenne_colonne(dataframe, nom_colonne):
+def moyenne_colonne(df, nom_colonne):
     # Vérifier si la colonne existe dans la DataFrame
-    if nom_colonne in dataframe.columns:
+    if nom_colonne in df.columns:
         # Extraire la colonne spécifiée
-        colonne = dataframe[nom_colonne]
+        colonne = df[nom_colonne]
         
         # Vérifier si la colonne est numérique
         if pd.api.types.is_numeric_dtype(colonne):
@@ -116,11 +116,11 @@ def moyenne_colonne(dataframe, nom_colonne):
     else:
         return f"La colonne '{nom_colonne}' n'existe pas dans la DataFrame."
 
-def variance_colonne(dataframe, nom_colonne):
+def variance_colonne(df, nom_colonne):
     # Vérifier si la colonne existe dans la DataFrame
-    if nom_colonne in dataframe.columns:
+    if nom_colonne in df.columns:
         # Extraire la colonne spécifiée
-        colonne = dataframe[nom_colonne]
+        colonne = df[nom_colonne]
         
         # Vérifier si la colonne est numérique
         if pd.api.types.is_numeric_dtype(colonne):
@@ -132,11 +132,11 @@ def variance_colonne(dataframe, nom_colonne):
     else:
         return f"La colonne '{nom_colonne}' n'existe pas dans la DataFrame."
 
-def ecart_type_colonne(dataframe, nom_colonne):
+def ecart_type_colonne(df, nom_colonne):
     # Vérifier si la colonne existe dans la DataFrame
-    if nom_colonne in dataframe.columns:
+    if nom_colonne in df.columns:
         # Extraire la colonne spécifiée
-        colonne = dataframe[nom_colonne]
+        colonne = df[nom_colonne]
         
         # Vérifier si la colonne est numérique
         if pd.api.types.is_numeric_dtype(colonne):
@@ -147,3 +147,10 @@ def ecart_type_colonne(dataframe, nom_colonne):
             return f"La colonne '{nom_colonne}' n'est pas de type numérique."
     else:
         return f"La colonne '{nom_colonne}' n'existe pas dans la DataFrame."
+    
+def mode(df, col): # Cette fonction prend une DataFrame et le nom d'une colonne, puis retourne le mode de la colonne spécifiée.
+
+    mode = df[col].mode()
+    # Si la colonne a plusieurs modes, mode renverra une Série.
+    # Vous pouvez choisir le premier mode en utilisant .iloc[0].
+    return mode.iloc[0] 
