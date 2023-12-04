@@ -44,6 +44,7 @@ import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/telecharger";
+import Results from "layouts/results";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -72,6 +73,14 @@ const routes = [
     icon: <Icon fontSize="small">assignment</Icon>,
     route: "/authentication/telecharger",
     component: <SignUp />,
+  },
+  {
+    type: "collapse",
+    name: "Results",
+    key: "results",
+    icon: <Icon fontSize="small">poll</Icon>,
+    route: "/results/:resultId", // Define the route parameter
+    component: <Results />,
   },
   {
     type: "collapse",

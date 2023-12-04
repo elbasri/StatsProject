@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import UploadedFile, Result, Statsprj
+from .models import UploadedFile, Result
 
 class UploadedFileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -11,7 +11,7 @@ class ResultSerializer(serializers.ModelSerializer):
         model = Result
         fields = '__all__'
 
-class StatsprjSerializer(serializers.ModelSerializer):
+class ResultSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Statsprj
+        model = Result
         fields = '__all__'

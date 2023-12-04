@@ -1,6 +1,6 @@
 
 // react-router-dom components
-import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 // @mui material components
 import Card from "@mui/material/Card";
@@ -11,7 +11,6 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
-import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
 
 // Authentication layout components
@@ -27,31 +26,71 @@ import { useDropzone } from 'react-dropzone';
 function Cover() {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [selectedColumns, setSelectedColumns] = useState([]);
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState('');
+  const [resultData, setResultData] = useState(null);
+  const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState(null);
+  
 
   const onDrop = async (acceptedFiles) => {
     const file = acceptedFiles[0];
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('selected_columns', JSON.stringify(selectedColumns)); // Include selected columns
 
     try {
       const response = await axios.post('http://127.0.0.1:8000/api/uploaded-files/', formData);
       setUploadedFile(response.data);
       // Set all columns as initially selected
       setSelectedColumns(response.data.parsed_data.columns);
+      setResultData(response.data.parsed_data);
     } catch (error) {
       console.error('Error uploading file:', error.message);
     }
   };
+  const handleApplyAlgorithm = () => {
+    setErrorMessage(null);
+    const requestData = {
+      selectedColumns,
+      selectedAlgorithm,
+      resultData,
+      // Add other relevant data
+    };
+
+    // Make an API call to the backend endpoint for applying the algorithm
+    // Adjust the URL and method based on your backend API
+    axios.post('http://127.0.0.1:8000/api/apply-algorithm/', requestData)
+      .then((response) => {
+        // Handle success
+        console.log('Algorithm applied successfully:', response.data);
+        if (response.status === 200) {
+          const resultId = response.data.resultId;
+          navigate(`/results/${resultId}`);
+        } else {
+          // Set the error message
+          setErrorMessage(`Failed to apply algorithm: ${response.statusText}`);
+        }
+      })
+      .catch((error) => {
+        // Handle error
+        console.error('Error applying algorithm:', error.message);
+        setErrorMessage(`Failed to apply algorithm: ${response.statusText}`);
+      });
+  };
 
   const handleColumnToggle = (column) => {
     const isSelected = selectedColumns.includes(column);
+    console.log("column "+column);
     if (isSelected) {
       setSelectedColumns((prevSelected) => prevSelected.filter((col) => col !== column));
     } else {
       setSelectedColumns((prevSelected) => [...prevSelected, column]);
     }
   };
+  const handleAlgorithmChange = (event) => {
+    console.log("algo "+event.target.value);
+    setSelectedAlgorithm(event.target.value);
+  };
+  
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (
@@ -110,10 +149,21 @@ function Cover() {
     <div>
     {uploadedFile && (
         <div>
-            <h4>File Data:</h4>
+          <select value={selectedAlgorithm} onChange={handleAlgorithmChange}>
+              <option value="">Select Algorithm</option>
+              <option value="algorithm1">Algorithm 1</option>
+              <option value="algorithm2">Algorithm 2</option>
+          </select>
+          <button onClick={handleApplyAlgorithm}>Apply Algorithm</button>
+          {errorMessage && (
+            <div style={{ color: 'red', marginTop: '10px' }}>
+              {errorMessage}
+            </div>
+          )}
+            <h4>Donnees de fichier:</h4>
             {/* Display the table using a table component or any preferred method */}
             <table style={{ width: '100%' }}>
-            <thead>
+            <thead style={{ backgroundColor: 'yourColor', color: 'yourTextColor', fontWeight: 'bold' }}>
               <tr>
                 {uploadedFile.parsed_data.columns.map((col) => (
                   <th key={col}>
@@ -136,6 +186,7 @@ function Cover() {
               ))}
             </tbody>
           </table>
+          
             {/* Display additional fields from the parsed data */}
             {/* Add more fields based on the parsed data */}
         </div>

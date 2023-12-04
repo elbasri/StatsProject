@@ -1,6 +1,5 @@
 # stats_app/urls.py
 from django.urls import path, include
-from .views import upload_file, result_view, home
 from rest_framework.routers import DefaultRouter
 from .views import *
 
@@ -14,4 +13,6 @@ urlpatterns = [
     path('api/uploaded-files/', UploadedFileListCreate.as_view(), name='uploaded-files-list'),
     path('api/results/', ResultListCreate.as_view(), name='results-list'),
     path('counts/', get_statistics, name='get_statistics'),
+    path('api/apply-algorithm/', ApplyAlgorithm.as_view(), name='apply_algorithm'),
+    path('api/results/<int:result_id>/', ResultListCreateView.as_view(), name='result-list-create'),
 ]

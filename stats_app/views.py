@@ -18,28 +18,20 @@ from rest_framework import viewsets
 from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from django.http import JsonResponse
+from rest_framework import status
+from rest_framework.views import APIView
 
-def parse_uploaded_file(request):
-    if request.method == 'POST' and request.FILES['file']:
-        file = request.FILES['file']
-
-        # Handle CSV file
-        if file.name.endswith('.csv'):
-            df = pd.read_csv(file)
-
-        # Handle Excel file
-        elif file.name.endswith(('.xls', '.xlsx')):
-            df = pd.read_excel(file)
-
-        # Process the DataFrame (apply algorithms, etc.) if needed
-        # ...
-
-        # Convert DataFrame to JSON and send it back
-        data = df.to_json(orient='split')
-        return JsonResponse({'data': data})
-
-    return JsonResponse({'error': 'Invalid request'})
+class ResultListCreateView(generics.ListCreateAPIView):
+    queryset = Result.objects.all()
+    serializer_class = ResultSerializer
+    
+class ApplyAlgorithm(APIView):
+    def post(self, request, *args, **kwargs):
+        selected_columns = request.data.get('selectedColumns', [])
+        selected_algorithm = request.data.get('selectedAlgorithm', '')
+        result_data = request.data.get('resultData', [])
+        
+        return Response(result_data, status=status.HTTP_200_OK)
 
 class UploadedFileListCreate(generics.ListCreateAPIView):
     queryset = UploadedFile.objects.all()
