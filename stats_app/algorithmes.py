@@ -151,3 +151,35 @@ def mode(df, col): # Cette fonction prend une DataFrame et le nom d'une colonne,
     # Si la colonne a plusieurs modes, mode renverra une Série.
     # Vous pouvez choisir le premier mode en utilisant .iloc[0].
     return mode.iloc[0] 
+
+def valeur_max_colonne(df, nom_colonne):
+    # Vérifie si la colonne existe dans la DataFrame
+    if nom_colonne in df.columns:
+        # Extraire la colonne spécifiée
+        colonne = df[nom_colonne]
+        
+        # Vérifie si la colonne est numérique
+        if pd.api.types.is_numeric_dtype(colonne):
+            # Trouve la valeur maximale de la colonne spécifiée
+            valeur_max = colonne.max()
+            return valeur_max
+        else:
+            return f"La colonne '{nom_colonne}' n'est pas de type numérique."
+    else:
+        return f"La colonne '{nom_colonne}' n'existe pas dans la DataFrame."
+
+def valeur_min_colonne(df, nom_colonne):
+    # Vérifie si la colonne existe dans la DataFrame
+    if nom_colonne in df.columns:
+        # Extraire la colonne spécifiée
+        colonne = df[nom_colonne]
+        
+        # Vérifie si la colonne est numérique
+        if pd.api.types.is_numeric_dtype(colonne):
+            # Trouve la valeur minimale de la colonne spécifiée
+            valeur_min = colonne.min()
+            return valeur_min
+        else:
+            return f"La colonne '{nom_colonne}' n'est pas de type numérique."
+    else:
+        return f"La colonne '{nom_colonne}' n'existe pas dans la DataFrame."
