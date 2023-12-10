@@ -1,6 +1,7 @@
 import numpy as np 
 import matplotlib.pyplot as plt 
 import pandas as pd 
+from bs4 import BeautifulSoup
 
 #gradient 0
 def dJ0(df, m,t0,t1, x0_col, x1_col, y_col):
@@ -58,9 +59,9 @@ def description_dataframe(df):
     """
     Cette fonction affiche les statistiques descriptives pour un DataFrame donné.
     """
-    description = df.describe()
-    print("Statistiques descriptives du DataFrame :")
-    print(description)
+    description_table = df.describe().to_html()
+    soup = BeautifulSoup(description_table, 'html.parser')
+    return soup.prettify()
 
 def longueur_dataframe(df):
     """
@@ -68,21 +69,17 @@ def longueur_dataframe(df):
     """
     return len(df)
 
-def premieres_valeurs(df, nombre_lignes=5):
+def premieres_valeurs(df, nombre_lignes):
     """
     Cette fonction affiche les premières valeurs d'un DataFrame.
     """
-    premieres_lignes = df.head(nombre_lignes)
-    print("Les", nombre_lignes, "premières lignes du DataFrame :")
-    print(premieres_lignes)
+    return df.head(nombre_lignes).to_html()
 
-def valeurs_recentes(df, nombre_lignes=5):
+def valeurs_recentes(df, nombre_lignes):
     """
     Cette fonction affiche les valeurs les plus récentes ajoutées à un DataFrame.
     """
-    dernieres_valeurs = df.tail(nombre_lignes)
-    print("Les", nombre_lignes, "dernières lignes du DataFrame :")
-    print(dernieres_valeurs)
+    return df.tail(nombre_lignes).to_html()
 
 def mediane_colonne(df, nom_colonne):
     # Vérifier si la colonne existe dans la DataFrame

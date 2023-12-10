@@ -20,6 +20,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 class ResultListCreateView(generics.ListCreateAPIView):
     queryset = Result.objects.all()
@@ -27,7 +29,8 @@ class ResultListCreateView(generics.ListCreateAPIView):
 class ResultRetrieveView(generics.RetrieveAPIView):
     queryset = Result.objects.all()
     serializer_class = ResultSerializer
-    lookup_field = 'pk' 
+    lookup_field = 'pk'
+    
 
 class ApplyAlgorithm(APIView):
     def post(self, request, *args, **kwargs):
@@ -52,7 +55,7 @@ class ApplyAlgorithm(APIView):
         # Create a DataFrame using the selected data
         df = pd.DataFrame(selected_data)
 
-        result = process_data(df, selected_algorithm)
+        result = process_data(df, selected_algorithm, selected_columns)
             #result_text = process_data(file_path, "topProd")
             #result_text = process_data(file_path, "mounthlyRev")
 
@@ -63,6 +66,7 @@ class ApplyAlgorithm(APIView):
                 graph=result[1]
             )
         instance.save()
+
         #return instance.id
         return Response(instance.id, status=status.HTTP_200_OK)
 
@@ -123,15 +127,18 @@ def get_statistics(request):
 
     return Response(data)
 
-def process_data(df, type):
+def process_data(df, type, selectedC):
     #df = pd.read_csv(file_path)
     # Effectuez des opérations statistiques.
     # Votre représentation graphique en utilisant Matplotlib.
     #Date,Produit,Quantité,Prix,Client 
     
     graphName = random.randint(1,9999)
-    #plt.savefig('stats_app/static/graph.png')
-    html_file_path = "graphs/"+str(graphName)+"output.html"
+    #html_file_path = "graphs/"+str(graphName)+"output.html"
+    graphs_directory = 'static/html/graphs'
+    html_file_path = os.path.join(graphs_directory, f'graph_{graphName}.html')
+    # Create the directory if it doesn't exist
+    os.makedirs(os.path.dirname(html_file_path), exist_ok=True)
 
 
 
@@ -217,10 +224,47 @@ def process_data(df, type):
         plt.tight_layout()
         mpld3.save_html(fig, html_file_path)
 
-    elif(type == "visualiser"):
-        fig = visualiserCol(df, "Prix", "histograme")
+    elif(type == "visualiserCol"):
+        col = selectedC[0] if selectedC else None
+        fig = visualiserCol(df, col, "histograme")
         ProcResultat = ".."
         mpld3.save_html(fig, html_file_path)
+
+    elif(type == "mediane_colonne"):
+        col = selectedC[0] if selectedC else None
+        html_file_path = "noGraph"
+        ProcResultat = mediane_colonne(df, col)
+        
+    elif(type == "moyenne_colonne"):
+        col = selectedC[0] if selectedC else None
+        html_file_path = "noGraph"
+        ProcResultat = moyenne_colonne(df, col)
+        
+    elif(type == "variance_colonne"):
+        col = selectedC[0] if selectedC else None
+        html_file_path = "noGraph"
+        ProcResultat = variance_colonne(df, col)
+        
+    elif(type == "ecart_type_colonne"):
+        col = selectedC[0] if selectedC else None
+        html_file_path = "noGraph"
+        ProcResultat = ecart_type_colonne(df, col)
+        
+    elif(type == "premieres_valeurs"):
+        html_file_path = "noGraph"
+        ProcResultat = premieres_valeurs(df, 10)
+    
+    elif(type == "valeurs_recentes"):
+        html_file_path = "noGraph"
+        ProcResultat = valeurs_recentes(df, 10)
+
+    elif(type == "description_dataframe"):
+        html_file_path = "noGraph"
+        ProcResultat = description_dataframe(df)
+
+    elif(type == "longueur_dataframe"):
+        html_file_path = "noGraph"
+        ProcResultat = longueur_dataframe(df)
         
     else:
         info_buffer = StringIO()

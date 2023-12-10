@@ -153,9 +153,17 @@ function Cover() {
     {uploadedFile && (
         <div>
           <select value={selectedAlgorithm} onChange={handleAlgorithmChange}>
-              <option value="">Select Algorithm</option>
-              <option value="topProd">Top Prod</option>
-              <option value="algorithm2">Algorithm 2</option>
+              <option value="">Fonction à appliquer</option>
+              <option value="description_dataframe">Description de donnees</option>
+              <option value="longueur_dataframe">longueur de donnees</option>
+              <option value="premieres_valeurs">Premieres valeurs</option>
+              <option value="valeurs_recentes">Valeurs recentes</option>
+              <option value="visualiserCol">Visualiser la colonne</option>
+              <option value="mediane_colonne">Calcule de médiane</option>
+              <option value="moyenne_colonne">Calcule de moyenne</option>
+              <option value="variance_colonne">Calcule de variance</option>
+              <option value="ecart_type_colonne">l'écart type</option>
+              <option value="mode">Mode de la colonne</option>
           </select>
           <button onClick={handleApplyAlgorithm}>Apply Algorithm</button>
           {errorMessage && (
