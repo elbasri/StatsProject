@@ -24,14 +24,51 @@ from rest_framework.views import APIView
 class ResultListCreateView(generics.ListCreateAPIView):
     queryset = Result.objects.all()
     serializer_class = ResultSerializer
-    
+class ResultRetrieveView(generics.RetrieveAPIView):
+    queryset = Result.objects.all()
+    serializer_class = ResultSerializer
+    lookup_field = 'pk' 
+
 class ApplyAlgorithm(APIView):
     def post(self, request, *args, **kwargs):
         selected_columns = request.data.get('selectedColumns', [])
         selected_algorithm = request.data.get('selectedAlgorithm', '')
         result_data = request.data.get('resultData', [])
+        fID = request.data.get('fID', [])
+
+        # Extract columns and rows from result_data
+        columns = result_data.get('columns', [])
+        rows = result_data.get('rows', [])
         
-        return Response(result_data, status=status.HTTP_200_OK)
+        # Create a dictionary with selected columns and their corresponding data
+        selected_data = {col: [] for col in selected_columns}
+        
+        # Populate the selected_data dictionary with data from result_data
+        for col in selected_columns:
+            if col in columns:
+                col_index = columns.index(col)
+                selected_data[col] = [row[col_index] for row in rows]
+        
+        # Create a DataFrame using the selected data
+        df = pd.DataFrame(selected_data)
+
+        result = process_data(df, selected_algorithm)
+            #result_text = process_data(file_path, "topProd")
+            #result_text = process_data(file_path, "mounthlyRev")
+
+            # Enregistrez le résultat dans la base de données.
+        instance = Result.objects.create(
+                uploaded_file_id=fID,
+                result_text=result[0],
+                graph=result[1]
+            )
+        instance.save()
+        #return instance.id
+        return Response(instance.id, status=status.HTTP_200_OK)
+
+
+        
+        #return Response(result_data, status=status.HTTP_200_OK)
 
 class UploadedFileListCreate(generics.ListCreateAPIView):
     queryset = UploadedFile.objects.all()
@@ -86,8 +123,8 @@ def get_statistics(request):
 
     return Response(data)
 
-def process_data(file_path, type):
-    df = pd.read_csv(file_path)
+def process_data(df, type):
+    #df = pd.read_csv(file_path)
     # Effectuez des opérations statistiques.
     # Votre représentation graphique en utilisant Matplotlib.
     #Date,Produit,Quantité,Prix,Client 

@@ -43,17 +43,19 @@ function Cover() {
       // Set all columns as initially selected
       setSelectedColumns(response.data.parsed_data.columns);
       setResultData(response.data.parsed_data);
+      console.log(response.data.id)
     } catch (error) {
       console.error('Error uploading file:', error.message);
     }
   };
   const handleApplyAlgorithm = () => {
     setErrorMessage(null);
+    const fID = uploadedFile.id
     const requestData = {
       selectedColumns,
       selectedAlgorithm,
       resultData,
-      // Add other relevant data
+      fID,
     };
 
     // Make an API call to the backend endpoint for applying the algorithm
@@ -63,7 +65,8 @@ function Cover() {
         // Handle success
         console.log('Algorithm applied successfully:', response.data);
         if (response.status === 200) {
-          const resultId = response.data.resultId;
+          const resultId = response.data;
+          //console.log(resultId)
           navigate(`/results/${resultId}`);
         } else {
           // Set the error message
@@ -151,7 +154,7 @@ function Cover() {
         <div>
           <select value={selectedAlgorithm} onChange={handleAlgorithmChange}>
               <option value="">Select Algorithm</option>
-              <option value="algorithm1">Algorithm 1</option>
+              <option value="topProd">Top Prod</option>
               <option value="algorithm2">Algorithm 2</option>
           </select>
           <button onClick={handleApplyAlgorithm}>Apply Algorithm</button>

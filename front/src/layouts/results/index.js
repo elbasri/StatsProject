@@ -11,6 +11,7 @@ function Results() {
       try {
         const response = await axios.get(`http://127.0.0.1:8000/api/results/${resultId}/`);
         setResultData(response.data);
+        console.log(response)
       } catch (error) {
         console.error('Error fetching result data:', error.message);
       }

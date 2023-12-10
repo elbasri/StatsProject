@@ -11,8 +11,8 @@ urlpatterns = [
     path('', home, name='home'),
     path('', include(router.urls)),
     path('api/uploaded-files/', UploadedFileListCreate.as_view(), name='uploaded-files-list'),
-    path('api/results/', ResultListCreate.as_view(), name='results-list'),
     path('counts/', get_statistics, name='get_statistics'),
     path('api/apply-algorithm/', ApplyAlgorithm.as_view(), name='apply_algorithm'),
-    path('api/results/<int:result_id>/', ResultListCreateView.as_view(), name='result-list-create'),
+    path('api/results/', ResultListCreateView.as_view(), name='result-list-create'),
+    path('api/results/<int:pk>/', ResultRetrieveView.as_view(), name='result-retrieve'),
 ]
