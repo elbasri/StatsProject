@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt 
 import pandas as pd 
 from bs4 import BeautifulSoup
+from scipy.integrate import quad
 
 #gradient 0
 def dJ0(df, m,t0,t1, x0_col, x1_col, y_col):
@@ -219,3 +220,20 @@ def combinaisonsRecursiveM(elements, k):
     sans_tete = combinaisonsRecursiveM(queue, k)
 
     return avec_tete + sans_tete
+
+def esperance_variable_discrete(valeurs, probabilites):
+    if len(valeurs) != len(probabilites):
+        raise ValueError("Les listes de valeurs et de probabilités doivent avoir la même longueur.")
+    
+    esperance = 0
+    for i in range(len(valeurs)):
+        esperance += valeurs[i] * probabilites[i]
+    
+    return esperance
+
+def esperance_variable_continue(fonction_densite_probabilite, borne_inf, borne_sup):
+    def integrande(x):
+        return x * fonction_densite_probabilite(x)
+    
+    resultat, _ = quad(integrande, borne_inf, borne_sup)
+    return resultat
