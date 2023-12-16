@@ -183,3 +183,39 @@ def valeur_min_colonne(df, nom_colonne):
             return f"La colonne '{nom_colonne}' n'est pas de type numérique."
     else:
         return f"La colonne '{nom_colonne}' n'existe pas dans la DataFrame."
+    
+def permutations(elements):
+    if len(elements) == 0:
+        return [[]]
+
+    result = []
+    for i in range(len(elements)):
+        reste = elements[:i] + elements[i+1:]
+        for p in permutations(reste):
+            result.append([elements[i]] + p)
+    return result
+
+def factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * factorial(n - 1)
+
+def combinations(n, k):
+    if n < k:
+        return 0
+    else:
+        return factorial(n) // (factorial(k) * factorial(n - k))
+    
+def combinaisonsRecursiveM(elements, k):
+    if k == 0:
+        return [[]]
+    if len(elements) == 0 or len(elements) < k:
+        return []
+
+    tete, queue = elements[0], elements[1:]
+
+    avec_tete = [[tete] + c for c in combinaisonsRecursiveM(queue, k - 1)]
+    sans_tete = combinaisonsRecursiveM(queue, k)
+
+    return avec_tete + sans_tete
