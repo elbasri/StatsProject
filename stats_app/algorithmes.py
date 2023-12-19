@@ -184,6 +184,29 @@ def valeur_min_colonne(df, nom_colonne):
             return f"La colonne '{nom_colonne}' n'est pas de type numérique."
     else:
         return f"La colonne '{nom_colonne}' n'existe pas dans la DataFrame."
+
+# Fonction pour supprimer une colonne spécifique
+def supprimer_colonne(df, nom_colonne):
+    # Utilisation de la méthode drop pour supprimer la colonne
+    dataframe_sans_colonne = df.drop(columns=[nom_colonne], axis=1)
+    return dataframe_sans_colonne
+
+# Fonction pour renvoyer une ligne spécifique
+def obtenir_ligne(df, index_ligne):
+    # Utilisation de iloc pour sélectionner une ligne par son index
+    ligne_selectionnee = df.iloc[index_ligne]
+    return ligne_selectionnee
+
+# Fonction pour sélectionner des lignes en fonction d'une condition
+def selection_lignes(df, condition):
+    # Utilisation de la méthode loc pour filtrer les lignes
+    resultats = df.loc[condition]
+    return resultats
+
+# Fonction pour accéder à une valeur via le nom de la colonne
+def valeur_par_colonne(df, nom_colonne, index_ligne):
+    valeur = df.at[index_ligne, nom_colonne]
+    return valeur
     
 def permutations(elements):
     if len(elements) == 0:
