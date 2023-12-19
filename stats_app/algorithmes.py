@@ -207,7 +207,18 @@ def selection_lignes(df, condition):
 def valeur_par_colonne(df, nom_colonne, index_ligne):
     valeur = df.at[index_ligne, nom_colonne]
     return valeur
-    
+
+# Fonction pour filtrer une DataFrame en utilisant la méthode query
+def filtrer_par_condition(df, condition):
+    resultat_filtrage = df.query(condition)
+    return resultat_filtrage
+
+# Fonction pour calculer les moyennes des colonnes spécifiques par groupe
+def moyenne_par_groupe(df, colonne_groupe, colonnes_moyenne):
+    moyennes_groupes = df.groupby(colonne_groupe)[colonnes_moyenne].mean()
+    return moyennes_groupes
+
+
 def permutations(elements):
     if len(elements) == 0:
         return [[]]
