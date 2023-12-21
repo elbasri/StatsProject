@@ -27,6 +27,7 @@ function Cover() {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [selectedColumns, setSelectedColumns] = useState([]);
   const [selectedAlgorithm, setSelectedAlgorithm] = useState('');
+  const [selectedAlgorithmType, setSelectedAlgorithmType] = useState('visualisation');
   const [resultData, setResultData] = useState(null);
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState(null);
@@ -48,9 +49,21 @@ function Cover() {
       console.error('Error uploading file:', error.message);
     }
   };
+  const handleAlgorithmTypeChange = (algorithmType) => {
+    setSelectedAlgorithmType(algorithmType);
+    setSelectedAlgorithm(''); // Reset selected algorithm when changing algorithm type
+    console.log(algorithmType)
+  };
   const handleApplyAlgorithm = () => {
     setErrorMessage(null);
     const fID = uploadedFile.id
+    if (selectedAlgorithmType === 'visualisation') {
+      // Apply visualisation algorithm
+      // ...
+    } else if (selectedAlgorithmType === 'numeric') {
+      // Apply numeric algorithm
+      // ...
+    }
     const requestData = {
       selectedColumns,
       selectedAlgorithm,
@@ -149,60 +162,113 @@ function Cover() {
       </Card>
       
     </CoverLayout>
-    <div>
-    {uploadedFile && (
-        <div>
-          <select value={selectedAlgorithm} onChange={handleAlgorithmChange}>
-              <option value="">Fonction à appliquer</option>
-              <option value="description_dataframe">Description de donnees</option>
-              <option value="longueur_dataframe">longueur de donnees</option>
-              <option value="premieres_valeurs">Premieres valeurs</option>
-              <option value="valeurs_recentes">Valeurs recentes</option>
-              <option value="visualiserCol">Visualiser la colonne</option>
-              <option value="mediane_colonne">Calcule de médiane</option>
-              <option value="moyenne_colonne">Calcule de moyenne</option>
-              <option value="variance_colonne">Calcule de variance</option>
-              <option value="ecart_type_colonne">l'écart type</option>
-              <option value="mode">Mode de la colonne</option>
-          </select>
-          <button onClick={handleApplyAlgorithm}>Apply Algorithm</button>
-          {errorMessage && (
-            <div style={{ color: 'red', marginTop: '10px' }}>
-              {errorMessage}
-            </div>
-          )}
-            <h4>Donnees de fichier:</h4>
-            {/* Display the table using a table component or any preferred method */}
-            <table style={{ width: '100%' }}>
-            <thead style={{ backgroundColor: 'yourColor', color: 'yourTextColor', fontWeight: 'bold' }}>
-              <tr>
-                {uploadedFile.parsed_data.columns.map((col) => (
-                  <th key={col}>
-                    <Checkbox
-                      checked={selectedColumns.includes(col)}
-                      onChange={() => handleColumnToggle(col)}
-                    />
-                    {col}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {uploadedFile.parsed_data.rows.map((row, index) => (
-                <tr key={index}>
-                  {row.map((cell, cellIndex) => (
-                    <td key={cellIndex}>{cell}</td>
+    <MDTypography variant="h4" fontWeight="medium" mt={1}>
+      <div>
+    
+          <h1>Graph</h1>
+          <MDBox mt={3} lineHeight={1}>
+          <MDTypography variant="h6">
+            Quel est le type de traitement que vous voulez appliquer ?
+          </MDTypography>
+          <MDBox
+            sx={{
+              display: "flex",
+              mt: 2,
+              mr: 1,
+            }}
+          >
+            <MDButton
+              color="dark"
+              variant="gradient"
+              onClick={() => handleAlgorithmTypeChange('visualisation')} // Pass the algorithm type as a string
+              disabled={selectedAlgorithmType === 'visualisation'}
+              fullWidth
+              sx={{
+                maxWidth: '250px', // Set the maximum width to 100px
+                padding: '5px', // Add padding of 5px
+                margin: '5px', // Add margin of 5px
+              }}
+            >
+              Visualisation
+            </MDButton>
+            <MDButton
+              color="dark"
+              variant="gradient"
+              onClick={() => handleAlgorithmTypeChange('numeric')} // Pass the algorithm type as a string
+              disabled={selectedAlgorithmType === 'numeric'}
+              fullWidth
+              sx={{
+                maxWidth: '250px', // Set the maximum width to 100px
+                padding: '5px', // Add padding of 5px
+                margin: '5px', // Add margin of 5px
+              }}
+            >
+              Numeric
+            </MDButton>
+          </MDBox>
+        </MDBox>
+
+
+          {selectedAlgorithmType && (
+            <div>
+              <select
+                value={selectedAlgorithm}
+                onChange={(e) => setSelectedAlgorithm(e.target.value)}
+              >
+                <option value="">Fonction à appliquer</option>
+                {selectedAlgorithmType === 'visualisation' ? (
+                  <>
+                    <option value="visualiserCol">Visualiser la colonne</option>
+                  </>
+                ) : (
+                  <>
+                    <option value="description_dataframe">Description de donnees</option>
+                    <option value="longueur_dataframe">longueur de donnees</option>
+                    <option value="premieres_valeurs">Premieres valeurs</option>
+                    <option value="valeurs_recentes">Valeurs recentes</option>
+                    <option value="mediane_colonne">Calcule de médiane</option>
+                    <option value="moyenne_colonne">Calcule de moyenne</option>
+                    <option value="variance_colonne">Calcule de variance</option>
+                    <option value="ecart_type_colonne">l'écart type</option>
+                    <option value="mode">Mode de la colonne</option>
+                  </>
+                )}
+              </select>
+              <button onClick={handleApplyAlgorithm}>Apply Algorithm</button>
+             
+                    
+            {uploadedFile && ( 
+              <table style={{ width: '100%' }}>
+              <thead style={{ backgroundColor: 'yourColor', color: 'yourTextColor', fontWeight: 'bold' }}>
+                <tr>
+                  {uploadedFile.parsed_data.columns.map((col) => (
+                    <th key={col}>
+                      <Checkbox
+                        checked={selectedColumns.includes(col)}
+                        onChange={() => handleColumnToggle(col)}
+                      />
+                      {col}
+                    </th>
                   ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
-          
-            {/* Display additional fields from the parsed data */}
-            {/* Add more fields based on the parsed data */}
-        </div>
-    )}
-    </div>
+              </thead>
+              <tbody>
+                {uploadedFile.parsed_data.rows.map((row, index) => (
+                  <tr key={index}>
+                    {row.map((cell, cellIndex) => (
+                      <td key={cellIndex}>{cell}</td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+              </table>
+            )}
+            </div>
+          )}
+      </div>
+    
+    </MDTypography>
+    
     </DashboardLayout>
   );
 }
