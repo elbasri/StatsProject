@@ -154,6 +154,22 @@ def mode(df, col): # Cette fonction prend une DataFrame et le nom d'une colonne,
     # Vous pouvez choisir le premier mode en utilisant .iloc[0].
     return mode.iloc[0] 
 
+def etendue_colonne(dataframe, nom_colonne):
+    # Vérifier si la colonne existe dans la DataFrame
+    if nom_colonne in dataframe.columns:
+        # Extraire la colonne spécifiée
+        colonne = dataframe[nom_colonne]
+        
+        # Vérifier si la colonne est numérique
+        if colonne.dtype.kind in 'iufc':
+            # Calculer l'étendue de la colonne
+            etendue = colonne.max() - colonne.min()
+            return etendue
+        else:
+            return f"La colonne '{nom_colonne}' n'est pas de type numérique."
+    else:
+        return f"La colonne '{nom_colonne}' n'existe pas dans la DataFrame."
+
 def valeur_max_colonne(df, nom_colonne):
     # Vérifie si la colonne existe dans la DataFrame
     if nom_colonne in df.columns:
