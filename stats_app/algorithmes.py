@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import pandas as pd 
 from bs4 import BeautifulSoup
 from scipy.integrate import quad
+import seaborn as sns
 
 #gradient 0
 def dJ0(df, m,t0,t1, x0_col, x1_col, y_col):
@@ -271,3 +272,226 @@ def esperance_variable_continue(fonction_densite_probabilite, borne_inf, borne_s
     
     resultat, _ = quad(integrande, borne_inf, borne_sup)
     return resultat
+
+# Fonction pour créer un graphique de dispersion à partir d'une DataFrame
+def scatter_dataframe(df, x_col, y_col, title="Graphique de Dispersion", x_label="Axe X", y_label="Axe Y"):
+    fig, ax = plt.subplots(figsize=(8, 6))  # Taille de la figure
+    
+    # Création du scatter plot avec Seaborn
+    sns.scatterplot(data=df, x=x_col, y=y_col, ax=ax)
+    
+    # Ajout des titres et des étiquettes
+    ax.set_title(title)
+    ax.set_xlabel(x_label)
+    ax.set_ylabel(y_label)
+    
+    # Retourne la figure
+    return fig
+
+# Fonction pour créer et afficher un graphique de dispersion avec une variable catégorique pour différencier les points sur le graphique
+def graphique_dispersion_categories(df, x_col, y_col, categorie_col, titre="Graphique de Dispersion", etiquette_x="Axe X", etiquette_y="Axe Y", ordre_categorie=None):
+    fig, ax = plt.subplots(figsize=(8, 6))  # Taille de la figure
+    
+    # Création du scatter plot avec Seaborn en utilisant une variable catégorique
+    sns.scatterplot(x=x_col, y=y_col, hue=categorie_col, data=df, hue_order=ordre_categorie, ax=ax)
+    
+    # Ajout des titres et des étiquettes
+    ax.set_title(titre)
+    ax.set_xlabel(etiquette_x)
+    ax.set_ylabel(etiquette_y)
+    
+    # Retourne la figure
+    return fig
+
+# Fonction pour créer et afficher un diagramme en boîte
+def boite_a_moustaches(df, x_col, y_col, hue_col, titre="Diagramme en Boîte", etiquette_x="Axe X", etiquette_y="Axe Y"):
+    fig, ax = plt.subplots(figsize=(8, 6))  # Taille de la figure
+    
+    # Création du diagramme en boîte avec Seaborn
+    sns.boxplot(x=x_col, y=y_col, hue=hue_col, data=df, ax=ax)
+    
+    # Ajout des titres et des étiquettes
+    ax.set_title(titre)
+    ax.set_xlabel(etiquette_x)
+    ax.set_ylabel(etiquette_y)
+    
+    # Retourne la figure
+    return fig
+
+# Fonction pour créer et afficher un histogramme à partir d'une colonne d'une DataFrame
+def histogramme_dataframe(df, colonne, titre="Histogramme", xlabel="Valeurs", ylabel="Fréquence", hue=None):
+    plt.figure(figsize=(8, 6))  # Taille de la figure
+    
+    # Création de l'histogramme avec Seaborn
+    sns.histplot(data=df, x=colonne, kde=False, hue=hue)  # kde=False désactive l'estimation de densité
+    
+    # Ajout des titres et des étiquettes
+    plt.title(titre)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    
+    # Retourne la figure
+    return plt.gcf()
+
+# Fonction pour créer et afficher un histogramme horizontal à partir d'une colonne d'une DataFrame
+def histogramme_horizontal_dataframe(df, colonne, titre="Histogramme Horizontal", xlabel="Fréquence", ylabel="Valeurs"):
+    plt.figure(figsize=(8, 6))  # Taille de la figure
+    
+    # Création de l'histogramme horizontal avec Seaborn
+    sns.histplot(data=df, y=colonne, kde=False)
+    
+    # Ajout des titres et des étiquettes
+    plt.title(titre)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    
+    # Retourne la figure
+    return plt.gcf()
+
+# Fonction pour créer et afficher une estimation de densité par noyau (KDE) à partir d'une colonne d'une DataFrame
+def kde_dataframe(df, colonne, titre="Estimation de Densité par Noyau (KDE)", xlabel="Valeurs", ylabel="Densité"):
+    plt.figure(figsize=(8, 6))  # Taille de la figure
+    
+    # Création de l'estimation de densité par noyau (KDE) avec Seaborn
+    sns.kdeplot(data=df[colonne])
+    
+    # Ajout des titres et des étiquettes
+    plt.title(titre)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    
+    # Retourne la figure
+    return plt.gcf()
+
+# Fonction pour créer et afficher une estimation de densité par noyau (KDE) univariée à partir d'une colonne d'une DataFrame
+def kde_univarie_dataframe(df, colonne, titre="Estimation de Densité par Noyau (KDE)", xlabel="Valeurs", ylabel="Densité"):
+    plt.figure(figsize=(8, 6))  # Taille de la figure
+    
+    # Création de l'estimation de densité par noyau (KDE) univariée avec Seaborn
+    sns.kdeplot(data=df[colonne], fill=True)
+    
+    # Ajout des titres et des étiquettes
+    plt.title(titre)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    
+    # Retourne la figure
+    return plt.gcf()
+
+# Fonction pour tracer un KDE (Estimation de densité par noyau) et un nuage de points (scatterplot)
+def kde_et_scatterplot(df, x_colonne, y_colonne, titre="KDE et Scatterplot", xlabel="X", ylabel="Y"):
+    plt.figure(figsize=(8, 6))  # Taille de la figure
+    
+    # Estimation de densité par noyau (KDE)
+    sns.kdeplot(x=x_colonne, y=y_colonne, data=df)
+    
+    # Nuage de points (scatterplot)
+    sns.scatterplot(x=x_colonne, y=y_colonne, data=df, color='black', alpha=0.6)
+    
+    # Ajout des titres et des étiquettes
+    plt.title(titre)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    
+    # Retourne la figure
+    return plt.gcf()
+
+# Fonction pour tracer deux estimations de densité par noyau (KDE) pour deux catégories spécifiques d'une DataFrame en fonction de deux colonnes
+def kde_deux_categories(df, x_colonne, y_colonne, categorie_colonne, categorie1, categorie2, titre="KDE pour Deux Catégories", xlabel="X", ylabel="Y"):
+
+    # Filtrage des données par catégories spécifiques
+    categorie1_data = df[df[categorie_colonne] == categorie1]
+    categorie2_data = df[df[categorie_colonne] == categorie2]
+
+    # Configuration du style seaborn
+    sns.set_style('whitegrid')
+
+    # Création de la figure
+    plt.figure(figsize=(8, 6))
+
+    # Estimation de densité par noyau (KDE) pour la première catégorie
+    sns.kdeplot(x=x_colonne, y=y_colonne, data=categorie1_data, cmap="Blues", fill=True)
+
+    # Estimation de densité par noyau (KDE) pour la deuxième catégorie
+    sns.kdeplot(x=x_colonne, y=y_colonne, data=categorie2_data, cmap="Reds", fill=True)
+
+    # Ajout des étiquettes pour les axes x et y avec une taille de police spécifiée
+    plt.xlabel(xlabel, fontsize=14)
+    plt.ylabel(ylabel, fontsize=14)
+
+    # Annotations pour indiquer les catégories
+    plt.annotate(f"{categorie1}", (105, 32), color='blue', fontsize=16, fontweight='bold')
+    plt.annotate(f"{categorie2}", (190, 18), color='red', fontsize=16, fontweight='bold')
+
+    # Titre du graphique
+    plt.title(titre)
+
+    # Retourne la figure
+    return plt.gcf()
+
+
+# Fonction pour créer un graphique en violon (violinplot) pour une colonne spécifique après filtrage des données d'une DataFrame.
+def graphique_violon(df, colonne_filtre, valeurs_filtre, colonne_graphique, titre="Graphique en Violon", xlabel="Valeurs"):
+
+    # Filtrage des données
+    filtered_data = df[df[colonne_filtre].isin(valeurs_filtre)]
+
+    # Création du graphique en violon
+    plt.figure(figsize=(8, 6))
+    sns.violinplot(x=filtered_data[colonne_graphique])
+
+    # Ajout du titre et de l'étiquette de l'axe x
+    plt.title(titre)
+    plt.xlabel(xlabel)
+
+    # Retourne la figure
+    return plt.gcf()
+
+
+# Fonction pour créer un graphique en violon (violinplot) pour deux colonnes spécifiques d'une DataFrame en distinguant une troisième colonne (comme une variable catégorique)
+def graphique_violon_multi(df, x_colonne, y_colonne, hue_colonne, titre="Graphique en Violon", xlabel="X", ylabel="Y"):
+
+    plt.figure(figsize=(8, 6))  # Taille de la figure
+
+    # Création du graphique en violon en distinguant les catégories avec la colonne 'hue'
+    sns.violinplot(x=x_colonne, y=y_colonne, hue=hue_colonne, data=df)
+
+    # Ajout du titre et des étiquettes pour les axes x et y
+    plt.title(titre)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+
+    # Retourne la figure
+    return plt.gcf()
+
+# Fonction pour créer un graphique à barres (barplot) pour deux colonnes spécifiques d'une DataFrame
+def graphique_barres(df, x_colonne, y_colonne, titre="Graphique à Barres", xlabel="X", ylabel="Y"):
+
+    plt.figure(figsize=(8, 6))  # Taille de la figure
+
+    # Création du graphique à barres
+    sns.barplot(x=x_colonne, y=y_colonne, data=df)
+
+    # Ajout du titre et des étiquettes pour les axes x et y
+    plt.title(titre)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+
+    # Retourne la figure
+    return plt.gcf()
+
+# Fonction pour créer une carte de chaleur (heatmap) à partir d'une DataFrame
+def carte_chaleur(df, annot=True, cmap='YlGnBu', cbar=True, titre="Carte de Chaleur", xlabel="Axe X", ylabel="Axe Y"):
+   
+    plt.figure(figsize=(8, 6))  # Taille de la figure
+
+    # Création de la carte de chaleur avec Seaborn
+    sns.heatmap(df, annot=annot, cmap=cmap, cbar=cbar)
+
+    # Ajout du titre et des étiquettes pour les axes x et y
+    plt.title(titre)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+
+    # Retourne la figure
+    return plt.gcf()
