@@ -290,23 +290,24 @@ def esperance_variable_continue(fonction_densite_probabilite, borne_inf, borne_s
     return resultat
 
 def line_plot(df, x_col, y_col, title='Graphique', x_label='X', y_label='Y'):
-    sns.set()  # Définir le style (optionnel)
+    sns.set()  # Set the style (optional)
     
-    plt.figure(figsize=(10, 6))  # Créer une nouvelle figure
+    # Create a figure and axes object
+    fig, ax = plt.subplots(figsize=(10, 6))
     
-    # Tracer le graphique linéaire en utilisant les colonnes spécifiées
-    sns.lineplot(x=x_col, y=y_col, data=df, marker='o', color='b', label=y_col)
+    # Plot the line graph using the specified columns on the axes object
+    sns.lineplot(x=x_col, y=y_col, data=df, marker='o', color='b', label=y_col, ax=ax)
     
-    # Ajouter les labels et le titre
-    plt.xlabel(x_label)
-    plt.ylabel(y_label)
-    plt.title(title)
+    # Add labels and title to the axes object
+    ax.set_xlabel(x_label)
+    ax.set_ylabel(y_label)
+    ax.set_title(title)
     
-    # Afficher la légende
-    plt.legend()
+    # Display the legend
+    ax.legend()
     
-    # Retourner le graphique
-    return plt
+    # Return the figure object
+    return fig
 
 
 # Fonction pour créer un graphique de dispersion à partir d'une DataFrame

@@ -230,7 +230,7 @@ def process_data(df, type, selectedC):
         ProcResultat = ".."
         mpld3.save_html(fig, html_file_path)
         
-    elif(type == "graphiqueDisperse"):
+    elif(type == "graphiqueLineaire"):
         col = selectedC[0] if selectedC else None
         col2 = selectedC[1] if selectedC else None
         fig = line_plot(df, col, col2, "Graphique Dispersé")
