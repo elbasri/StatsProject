@@ -357,18 +357,19 @@ def boite_a_moustaches(df, x_col, y_col, hue_col, titre="Diagramme en Boîte", e
 
 # Fonction pour créer et afficher un histogramme à partir d'une colonne d'une DataFrame
 def histogramme_dataframe(df, colonne, titre="Histogramme", xlabel="Valeurs", ylabel="Fréquence", hue=None):
-    plt.figure(figsize=(8, 6))  # Taille de la figure
-    
-    # Création de l'histogramme avec Seaborn
-    sns.histplot(data=df, x=colonne, kde=False, hue=hue)  # kde=False désactive l'estimation de densité
-    
-    # Ajout des titres et des étiquettes
-    plt.title(titre)
-    plt.xlabel(xlabel)
-    plt.ylabel(ylabel)
-    
-    # Retourne la figure
-    return plt.gcf()
+    # Create a figure and axes object
+    fig, ax = plt.subplots(figsize=(8, 6))
+
+    # Create the histogram with Seaborn on the axes object
+    sns.histplot(data=df, x=colonne, kde=False, hue=hue, ax=ax)  # kde=False disables the density estimate
+
+    # Add titles and labels to the axes object
+    ax.set_title(titre)
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel)
+
+    # Return the figure object
+    return fig
 
 # Fonction pour créer et afficher un histogramme horizontal à partir d'une colonne d'une DataFrame
 def histogramme_horizontal_dataframe(df, colonne, titre="Histogramme Horizontal", xlabel="Fréquence", ylabel="Valeurs"):
@@ -387,18 +388,19 @@ def histogramme_horizontal_dataframe(df, colonne, titre="Histogramme Horizontal"
 
 # Fonction pour créer et afficher une estimation de densité par noyau (KDE) à partir d'une colonne d'une DataFrame
 def kde_dataframe(df, colonne, titre="Estimation de Densité par Noyau (KDE)", xlabel="Valeurs", ylabel="Densité"):
-    plt.figure(figsize=(8, 6))  # Taille de la figure
-    
-    # Création de l'estimation de densité par noyau (KDE) avec Seaborn
-    sns.kdeplot(data=df[colonne])
-    
-    # Ajout des titres et des étiquettes
-    plt.title(titre)
-    plt.xlabel(xlabel)
-    plt.ylabel(ylabel)
-    
-    # Retourne la figure
-    return plt.gcf()
+    # Create a figure and axes object
+    fig, ax = plt.subplots(figsize=(8, 6))
+
+    # Create the Kernel Density Estimate (KDE) plot with Seaborn on the axes object
+    sns.kdeplot(data=df[colonne], ax=ax)
+
+    # Add titles and labels to the axes object
+    ax.set_title(titre)
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel)
+
+    # Return the figure object
+    return fig
 
 # Fonction pour créer et afficher une estimation de densité par noyau (KDE) univariée à partir d'une colonne d'une DataFrame
 def kde_univarie_dataframe(df, colonne, titre="Estimation de Densité par Noyau (KDE)", xlabel="Valeurs", ylabel="Densité"):
@@ -503,19 +505,19 @@ def graphique_violon_multi(df, x_colonne, y_colonne, hue_colonne, titre="Graphiq
 
 # Fonction pour créer un graphique à barres (barplot) pour deux colonnes spécifiques d'une DataFrame
 def graphique_barres(df, x_colonne, y_colonne, titre="Graphique à Barres", xlabel="X", ylabel="Y"):
+    # Create a figure and axes object
+    fig, ax = plt.subplots(figsize=(8, 6))
 
-    plt.figure(figsize=(8, 6))  # Taille de la figure
+    # Create the bar plot using the specified columns on the axes object
+    sns.barplot(x=x_colonne, y=y_colonne, data=df, ax=ax)
 
-    # Création du graphique à barres
-    sns.barplot(x=x_colonne, y=y_colonne, data=df)
+    # Add title and labels to the axes object
+    ax.set_title(titre)
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel)
 
-    # Ajout du titre et des étiquettes pour les axes x et y
-    plt.title(titre)
-    plt.xlabel(xlabel)
-    plt.ylabel(ylabel)
-
-    # Retourne la figure
-    return plt.gcf()
+    # Return the figure object
+    return fig
 
 # Fonction pour créer une carte de chaleur (heatmap) à partir d'une DataFrame
 def carte_chaleur(df, annot=True, cmap='YlGnBu', cbar=True, titre="Carte de Chaleur", xlabel="Axe X", ylabel="Axe Y"):

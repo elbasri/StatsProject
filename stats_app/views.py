@@ -233,32 +233,34 @@ def process_data(df, type, selectedC):
     elif(type == "graphiqueLineaire"):
         col = selectedC[0] if selectedC else None
         col2 = selectedC[1] if selectedC else None
-        fig = line_plot(df, col, col2, "Graphique Dispersé")
+        fig = line_plot(df, col, col2, "Graphique Linaire")
         ProcResultat = "."
         mpld3.save_html(fig, html_file_path)
         
-    elif(type == "visualiserCol"):
+    elif(type == "graphiqueDisperse"):
         col = selectedC[0] if selectedC else None
-        fig = visualiserCol(df, col, "histograme")
-        ProcResultat = ".."
+        col2 = selectedC[1] if selectedC else None
+        fig = scatter_dataframe(df, col, col2, "Graphique Dispersé")
+        ProcResultat = "."
         mpld3.save_html(fig, html_file_path)
         
-    elif(type == "visualiserCol"):
+    elif(type == "graphiqueBarres"):
         col = selectedC[0] if selectedC else None
-        fig = visualiserCol(df, col, "histograme")
-        ProcResultat = ".."
+        col2 = selectedC[1] if selectedC else None
+        fig = graphique_barres(df, col, col2, "Graphique à Barres")
+        ProcResultat = "."
         mpld3.save_html(fig, html_file_path)
         
-    elif(type == "visualiserCol"):
+    elif(type == "histogramme"):
         col = selectedC[0] if selectedC else None
-        fig = visualiserCol(df, col, "histograme")
-        ProcResultat = ".."
+        fig = histogramme_dataframe(df, col, "Graphique histogramme")
+        ProcResultat = "."
         mpld3.save_html(fig, html_file_path)
         
-    elif(type == "visualiserCol"):
+    elif(type == "graphiqueKDE"):
         col = selectedC[0] if selectedC else None
-        fig = visualiserCol(df, col, "histograme")
-        ProcResultat = ".."
+        fig = kde_dataframe(df, col, "Graphique KDE")
+        ProcResultat = "."
         mpld3.save_html(fig, html_file_path)
 
     elif(type == "mediane_colonne"):
