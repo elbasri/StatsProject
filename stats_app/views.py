@@ -274,7 +274,7 @@ def process_data(df, type, selectedC):
     elif(type == "boiteMoustaches"):
         col = selectedC[0] if selectedC else None
         col2 = selectedC[1] if selectedC else None
-        col2 = selectedC[3] if selectedC else None
+        col3 = selectedC[2] if selectedC else None
         fig = boite_a_moustaches(df, col, col2, col3, "Diagramme en Boîte")
         ProcResultat = "."
         mpld3.save_html(fig, html_file_path)
