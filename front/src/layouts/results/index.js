@@ -19,7 +19,7 @@ function Results() {
   useEffect(() => {
     const fetchResultData = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/results/${resultId}/`);
+        const response = await axios.get(`http://statsprojectapi.maktab.ma//api/results/${resultId}/`);
         setResultData(response.data);
         console.log(response)
       } catch (error) {
@@ -65,7 +65,7 @@ function Results() {
               <h1>{resultData.graph !== 'noGraph' ? 'Visualisation:' : 'Valeurs:'}</h1>
               {resultData.graph !== 'noGraph' ? (
                 <iframe  width="100%" height="500px"
-                src={`http://127.0.0.1:8000/${resultData.graph}`} // Update the URL as needed
+                src={`http://statsprojectapi.maktab.ma//${resultData.graph}`} // Update the URL as needed
                 title="Graph"
                 style={{ width: '100%', height: '400px', border: 'none' }}
               />

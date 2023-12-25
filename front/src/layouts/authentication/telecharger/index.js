@@ -39,7 +39,7 @@ function Cover() {
     formData.append('file', file);
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/uploaded-files/', formData);
+      const response = await axios.post('http://statsprojectapi.maktab.ma//api/uploaded-files/', formData);
       setUploadedFile(response.data);
       setSelectedColumns(response.data.parsed_data.columns);
       setResultData(response.data.parsed_data);
@@ -84,7 +84,7 @@ function Cover() {
 
     // Make an API call to the backend endpoint for applying the algorithm
     axios
-      .post('http://127.0.0.1:8000/api/apply-algorithm/', requestData)
+      .post('http://statsprojectapi.maktab.ma//api/apply-algorithm/', requestData)
       .then((response) => {
         if (response.status === 200) {
           const resultId = response.data;
