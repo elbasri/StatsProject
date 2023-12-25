@@ -45,7 +45,7 @@ function Dashboard() {
   // Function to fetch data from the server
   const fetchDataFromServer = async () => {
     try {
-      const response = await fetch('http://https://statsprojectapi.maktab.ma/api/results/');
+      const response = await fetch('https://statsprojectapi.maktab.ma/api/results/');
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
@@ -63,7 +63,7 @@ function Dashboard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://https://statsprojectapi.maktab.ma/api/counts/');
+        const response = await fetch('https://statsprojectapi.maktab.ma/api/counts/');
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
