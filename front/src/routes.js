@@ -58,6 +58,7 @@ const routes = [
     route: "/dashboard",
     component: <Dashboard />,
   },
+  /*
   {
     type: "collapse",
     name: "Resultats",
@@ -66,6 +67,7 @@ const routes = [
     route: "/tables",
     component: <Tables />,
   },
+  */
   {
     type: "collapse",
     name: "Télécharger",
@@ -76,20 +78,13 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Results",
+    name: "Resultats",
     key: "results",
     icon: <Icon fontSize="small">poll</Icon>,
     route: "/results/:resultId", // Define the route parameter
     component: <Results />,
   },
-  {
-    type: "collapse",
-    name: "Billing",
-    key: "billing",
-    icon: <Icon fontSize="small">receipt_long</Icon>,
-    route: "/billing",
-    component: <Billing />,
-  },
+/*
   {
     type: "collapse",
     name: "العربية",
@@ -98,6 +93,7 @@ const routes = [
     route: "/rtl",
     component: <RTL />,
   },
+  */
   {
     type: "collapse",
     name: "Notifications",
@@ -108,17 +104,9 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Profile",
-    key: "profile",
-    icon: <Icon fontSize="small">person</Icon>,
-    route: "/profile",
-    component: <Profile />,
-  },
-  {
-    type: "collapse",
     name: "Sign In",
     key: "sign-in",
-    icon: <Icon fontSize="small">login</Icon>,
+    icon: <Icon fontSize="small">Se connecter</Icon>,
     route: "/authentication/sign-in",
     component: <SignIn />,
   },

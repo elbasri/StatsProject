@@ -117,62 +117,62 @@ function Cover() {
   return (
 <DashboardLayout>
     <DashboardNavbar />
-        <CoverLayout image={bgImage}>
-          <Card>
-            <MDBox
-              variant="gradient"
-              bgColor="info"
-              borderRadius="lg"
-              coloredShadow="success"
-              mx={2}
-              mt={-3}
-              p={3}
-              mb={1}
-              textAlign="center"
-            >
-              <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
-                Télécharger un Fichier
-              </MDTypography>
-              <MDTypography display="block" variant="button" color="white" my={1}>
-                Visualisez les données de votre fichier CSV/Excel dans un tableau. Choisissez le type d'algorithme à appliquer, les colonnes et lignes concernées, et visualisez les résultats dans un graphique.
+    <Card style={{ maxWidth: '700px', margin: '0 auto', alignItems: 'center' }}>
+      <MDBox
+        variant="gradient"
+        bgColor="info"
+        borderRadius="lg"
+        coloredShadow="success"
+        mx={2}
+        mt={-3}
+        p={3}
+        mb={1}
+        textAlign="center"
+      >
+          <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
+            Télécharger un Fichier
+          </MDTypography>
+          <MDTypography display="block" variant="button" color="white" my={1}>
+            Visualisez les données de votre fichier CSV/Excel dans un tableau. Choisissez le type d'algorithme à appliquer, les colonnes et lignes concernées, et visualisez les résultats dans un graphique.
+          </MDTypography>
+        </MDBox>
+        <MDBox pt={4} pb={3} px={3}>
+          <MDBox component="form" role="form">
+            <MDBox display="flex" alignItems="center" ml={-1}>
+              <MDTypography
+                variant="button"
+                fontWeight="regular"
+                color="text"
+                sx={{ cursor: "pointer", userSelect: "none", ml: -1 }}
+              >
+                <div {...getRootProps()} style={{ border: '2px dashed #ccc', padding: '20px', textAlign: 'center' }}>
+                  <input {...getInputProps()} />
+                  {isDragActive ? <p>Déposez le fichier ici...</p> : <p>Faites glisser et déposez un fichier ici, ou cliquez pour en sélectionner un</p>}
+                </div>
               </MDTypography>
             </MDBox>
-            <MDBox pt={4} pb={3} px={3}>
-              <MDBox component="form" role="form">
-                <MDBox display="flex" alignItems="center" ml={-1}>
-                  <MDTypography
-                    variant="button"
-                    fontWeight="regular"
-                    color="text"
-                    sx={{ cursor: "pointer", userSelect: "none", ml: -1 }}
-                  >
-                    <div {...getRootProps()} style={{ border: '2px dashed #ccc', padding: '20px', textAlign: 'center' }}>
-                      <input {...getInputProps()} />
-                      {isDragActive ? <p>Déposez le fichier ici...</p> : <p>Faites glisser et déposez un fichier ici, ou cliquez pour en sélectionner un</p>}
-                    </div>
-                  </MDTypography>
-                </MDBox>
-                <MDBox mt={4} mb={1}>
-                  <MDButton variant="gradient" color="info" fullWidth>
-                    Télécharger et Visualiser
-                  </MDButton>
-                </MDBox>
-              </MDBox>
+            <MDBox mt={4} mb={1}>
+              <MDButton variant="gradient" color="info" fullWidth>
+                Télécharger et Visualiser
+              </MDButton>
             </MDBox>
-          </Card>
-        </CoverLayout>
-        <MDTypography variant="h4" fontWeight="medium" mt={1}>
-          <div>
-            <h1>Graph</h1>
-            <MDBox mt={3} lineHeight={1}>
+          </MDBox>
+        </MDBox>
+      </Card>
+
+        <MDTypography variant="h4" fontWeight="medium" mt={1} style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center', alignItems: 'center'}}>
+        <div style={{ textAlign: 'center',border: '1px dotted #000', padding: '10px', margin: '10px' }}>
+            <MDBox mt={3} lineHeight={1} >
               <MDTypography variant="h6">
                 Quel est le type de traitement que vous voulez appliquer ?
               </MDTypography>
               <MDBox
                 sx={{
                   display: "flex",
+                  justifyContent: "center", // Center the buttons horizontally
                   mt: 2,
                   mr: 1,
+                  
                 }}
               >
                 <MDButton
@@ -183,8 +183,8 @@ function Cover() {
                   fullWidth
                   sx={{
                     maxWidth: '250px',
-                    padding: '5px',
-                    margin: '5px',
+                    padding: '7px',
+                    margin: '7px',
                   }}
                 >
                   Visualisation
@@ -197,8 +197,8 @@ function Cover() {
                   fullWidth
                   sx={{
                     maxWidth: '250px',
-                    padding: '5px',
-                    margin: '5px',
+                    padding: '7px',
+                    margin: '7px',
                   }}
                 >
                   Mesures statistiques
@@ -332,6 +332,16 @@ function Cover() {
                     <select
                       value={selectedAlgorithm}
                       onChange={(e) => setSelectedAlgorithm(e.target.value)}
+                      style={{
+                        padding: '5px',
+                        fontSize: '16px',
+                        borderRadius: '5px',
+                        border: '1px solid #ccc',
+                        backgroundColor: '#fff',
+                        color: '#333',
+                        maxWidth: '250px', // Set the maximum width
+                        margin: '5px', // Add margin
+                      }}
                     >
                       <option value="">Fonction à appliquer</option>
                       {selectedAlgorithmType === 'visualisation' ? (
@@ -365,29 +375,41 @@ function Cover() {
                         <>
                           {selectedSubAlgorithmType === 'tendanceCentrale' ? (
                             <>
-                              <option value="calculeMoyenne">Calcule de moyenne</option>
-                              <option value="calculeMediane">Calcule de médiane</option>
-                              <option value="modeColonne">Mode de la colonne</option>
+                              <option value="moyenne_colonne">Calcule de moyenne</option>
+                              <option value="mediane_colonne">Calcule de médiane</option>
+                              <option value="mode">Mode de la colonne</option>
                             </>
                           ) : selectedSubAlgorithmType === 'variabilite' ? (
                             <>
                               <option value="esperance">Esperance</option>
-                              <option value="calculeVariance">Calcule de variance</option>
-                              <option value="ecartType">L'écart type</option>
+                              <option value="variance_colonne">Calcule de variance</option>
+                              <option value="ecart_type_colonne">L'écart type</option>
                               <option value="etendue">Etendue</option>
                             </>
                           ) : selectedSubAlgorithmType === 'autresMesures' ? (
                             <>
-                              <option value="descriptionDonnees">Description de données</option>
-                              <option value="longueurDonnees">Longueur de données</option>
-                              <option value="premieresValeurs">Premières valeurs</option>
-                              <option value="valeursRecentes">Valeurs récentes</option>
+                              <option value="description_dataframe">Description de données</option>
+                              <option value="longueur_dataframe">Longueur de données</option>
+                              <option value="premieres_valeurs">Premières valeurs</option>
+                              <option value="valeurs_recentes">Valeurs récentes</option>
                             </>
                           ) : null}
                         </>
                       )}
                     </select>
-                    <button onClick={handleApplyAlgorithm}>Appliquer l'algorithme</button>
+                    <MDButton
+                          color="dark"
+                          variant="gradient"
+                          onClick={() => handleApplyAlgorithm()}
+                          fullWidth
+                          sx={{
+                            maxWidth: '250px',
+                            padding: '5px',
+                            margin: '5px',
+                          }}
+                        >
+                          Appliquer l'algorithme
+                        </MDButton>
                     
                     {uploadedFile && (
                       <table style={{ width: '100%' }}>
