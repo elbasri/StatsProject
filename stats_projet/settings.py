@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-(vk^mm0q3%_xn75v_33g@zk&1i%&p#!l8-b*4&1(nwkvavj^(%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://statsprojectapi.maktab.ma', 'statsproject.maktab.ma', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['statsprojectapi.maktab.ma', 'statsproject.maktab.ma', 'localhost', '127.0.0.1']
 
 CORS_ALLOW_ALL_ORIGINS = True
 # Application definition
