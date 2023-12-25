@@ -229,6 +229,37 @@ def process_data(df, type, selectedC):
         fig = visualiserCol(df, col, "histograme")
         ProcResultat = ".."
         mpld3.save_html(fig, html_file_path)
+        
+    elif(type == "graphiqueDisperse"):
+        col = selectedC[0] if selectedC else None
+        col2 = selectedC[1] if selectedC else None
+        fig = line_plot(df, col, col2, "Graphique Dispersé")
+        ProcResultat = "."
+        mpld3.save_html(fig, html_file_path)
+        
+    elif(type == "visualiserCol"):
+        col = selectedC[0] if selectedC else None
+        fig = visualiserCol(df, col, "histograme")
+        ProcResultat = ".."
+        mpld3.save_html(fig, html_file_path)
+        
+    elif(type == "visualiserCol"):
+        col = selectedC[0] if selectedC else None
+        fig = visualiserCol(df, col, "histograme")
+        ProcResultat = ".."
+        mpld3.save_html(fig, html_file_path)
+        
+    elif(type == "visualiserCol"):
+        col = selectedC[0] if selectedC else None
+        fig = visualiserCol(df, col, "histograme")
+        ProcResultat = ".."
+        mpld3.save_html(fig, html_file_path)
+        
+    elif(type == "visualiserCol"):
+        col = selectedC[0] if selectedC else None
+        fig = visualiserCol(df, col, "histograme")
+        ProcResultat = ".."
+        mpld3.save_html(fig, html_file_path)
 
     elif(type == "mediane_colonne"):
         col = selectedC[0] if selectedC else None

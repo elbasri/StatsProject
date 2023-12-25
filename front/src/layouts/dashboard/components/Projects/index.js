@@ -77,7 +77,7 @@ function Projects() {
               done
             </Icon>
             <MDTypography variant="button" fontWeight="regular" color="text">
-              &nbsp;<strong>250 ce</strong> mois
+              &nbsp;<strong>10 derniers</strong> fichiers
             </MDTypography>
           </MDBox>
         </MDBox>
