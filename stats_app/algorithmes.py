@@ -289,6 +289,26 @@ def esperance_variable_continue(fonction_densite_probabilite, borne_inf, borne_s
     resultat, _ = quad(integrande, borne_inf, borne_sup)
     return resultat
 
+def line_plot(df, x_col, y_col, title='Graphique', x_label='X', y_label='Y'):
+    sns.set()  # Définir le style (optionnel)
+    
+    plt.figure(figsize=(10, 6))  # Créer une nouvelle figure
+    
+    # Tracer le graphique linéaire en utilisant les colonnes spécifiées
+    sns.lineplot(x=x_col, y=y_col, data=df, marker='o', color='b', label=y_col)
+    
+    # Ajouter les labels et le titre
+    plt.xlabel(x_label)
+    plt.ylabel(y_label)
+    plt.title(title)
+    
+    # Afficher la légende
+    plt.legend()
+    
+    # Retourner le graphique
+    return plt
+
+
 # Fonction pour créer un graphique de dispersion à partir d'une DataFrame
 def scatter_dataframe(df, x_col, y_col, title="Graphique de Dispersion", x_label="Axe X", y_label="Axe Y"):
     fig, ax = plt.subplots(figsize=(8, 6))  # Taille de la figure
@@ -511,3 +531,7 @@ def carte_chaleur(df, annot=True, cmap='YlGnBu', cbar=True, titre="Carte de Chal
 
     # Retourne la figure
     return plt.gcf()
+
+def pairplot_custom(df, column):
+    graph = sns.pairplot(data=df, hue=column)
+    return graph
