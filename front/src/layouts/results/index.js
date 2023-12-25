@@ -64,7 +64,7 @@ function Results() {
             <div>
               <h1>{resultData.graph !== 'noGraph' ? 'Visualisation:' : 'Valeurs:'}</h1>
               {resultData.graph !== 'noGraph' ? (
-                <iframe  width="100%" height="500px"
+                <iframe  width="100%" height="800px"
                 src={`https://statsprojectapi.maktab.ma/${resultData.graph}`} // Update the URL as needed
                 title="Graph"
                 style={{ width: '100%', height: '400px', border: 'none' }}
