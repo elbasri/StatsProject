@@ -26,7 +26,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['https://statsprojectapi.maktab.ma', 'statsproject.maktab.ma', 'localhost', '127.0.0.1']
 
-
+CORS_ALLOW_ALL_ORIGINS = True
 # Application definition
 
 INSTALLED_APPS = [
