@@ -366,8 +366,8 @@ function Cover() {
                             </>
                           ) : selectedSubAlgorithmType === 'autresGraphiques' ? (
                             <>
-                              <option value="carteThermique1">Carte Thermique 1</option>
-                              <option value="carteThermique2">Carte Thermique 2</option>
+                              <option value="GradientDec">Gradient descent</option>
+                              <option value="carteThermique2">Carte Thermique</option>
                             </>
                           ) : null}
                         </>

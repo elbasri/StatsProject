@@ -263,6 +263,21 @@ def process_data(df, type, selectedC):
         ProcResultat = "."
         mpld3.save_html(fig, html_file_path)
 
+    elif(type == "graphiqueViolon"):
+        col = selectedC[0] if selectedC else None
+        col2 = selectedC[1] if selectedC else None
+        col3 = selectedC[2] if selectedC else None
+        fig = graphique_violon_multi(df, col, col2, col3, "Graphique en Violon")
+        ProcResultat = "."
+        mpld3.save_html(fig, html_file_path)
+
+    elif(type == "boiteMoustaches"):
+        col = selectedC[0] if selectedC else None
+        col2 = selectedC[1] if selectedC else None
+        fig = boite_a_moustaches(df, col, col2, "Diagramme en Boîte")
+        ProcResultat = "."
+        mpld3.save_html(fig, html_file_path)
+
     elif(type == "mediane_colonne"):
         col = selectedC[0] if selectedC else None
         html_file_path = "noGraph"
