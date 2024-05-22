@@ -344,10 +344,8 @@ def graphique_dispersion_categories(df, x_col, y_col, categorie_col, titre="Grap
 def boite_a_moustaches(df, x_col, y_col, hue_col, titre="Diagramme en Boîte", etiquette_x="Axe X", etiquette_y="Axe Y"):
     fig, ax = plt.subplots(figsize=(8, 6))  # Taille de la figure
     
-    # Création du diagramme en boîte avec Seaborn
     sns.boxplot(x=x_col, y=y_col, hue=hue_col, data=df, ax=ax)
     
-    # Ajout des titres et des étiquettes
     ax.set_title(titre)
     ax.set_xlabel(etiquette_x)
     ax.set_ylabel(etiquette_y)

@@ -47,3 +47,5 @@
 
 ### Test:
 python manage.py runserver
+
+### Use custom python ENV !
