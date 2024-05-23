@@ -536,3 +536,7 @@ def carte_chaleur(df, annot=True, cmap='YlGnBu', cbar=True, titre="Carte de Chal
 def pairplot_custom(df, column):
     graph = sns.pairplot(data=df, hue=column)
     return graph
+
+
+def testFunc():
+    print("ML")
